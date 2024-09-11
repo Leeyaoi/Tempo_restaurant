@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35208.52
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tempo_API", "Tempo_API\Tempo_API.csproj", "{70C5A2C1-B6B8-480D-A7D3-10647CC66268}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tempo_API", "Tempo_API\Tempo_API.csproj", "{70C5A2C1-B6B8-480D-A7D3-10647CC66268}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tempo_DAL", "Tempo_DAL\Tempo_DAL.csproj", "{82CA91B7-E5A1-4DDE-BFAF-2CA907133DC8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{70C5A2C1-B6B8-480D-A7D3-10647CC66268}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70C5A2C1-B6B8-480D-A7D3-10647CC66268}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70C5A2C1-B6B8-480D-A7D3-10647CC66268}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82CA91B7-E5A1-4DDE-BFAF-2CA907133DC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82CA91B7-E5A1-4DDE-BFAF-2CA907133DC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82CA91B7-E5A1-4DDE-BFAF-2CA907133DC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82CA91B7-E5A1-4DDE-BFAF-2CA907133DC8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
