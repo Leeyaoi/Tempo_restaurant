@@ -1,8 +1,9 @@
 ﻿namespace Tempo_DAL.Entities;
 
-public class Ingredient
+public class IngredientEntity : BaseEntity
 {
-    public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public double In_stock {  get; set; }
+
+    public List<IngredientDishEntity> IngredientDish { get; set; } = new();
 }
