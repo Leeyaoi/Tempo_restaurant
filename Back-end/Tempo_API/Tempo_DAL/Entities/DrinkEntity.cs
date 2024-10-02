@@ -1,9 +1,9 @@
 ﻿namespace Tempo_DAL.Entities;
 
-public class Drink : BaseEntity
+public class DrinkEntity : BaseEntity
 {
     public string Name { get; set; } = string.Empty;
     public Guid CategoryId { get; set; }
 
-    public Category Category { get; set; } = new();
+    public CategoryEntity Category { get; set; } = new();
 }

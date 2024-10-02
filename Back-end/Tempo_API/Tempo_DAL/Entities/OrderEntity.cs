@@ -2,14 +2,14 @@
 
 namespace Tempo_DAL.Entities;
 
-public class Order : BaseEntity
+public class OrderEntity : BaseEntity
 { 
     public int People_num { get; set; }
     public OrderStatus Status { get; set; }
     public Guid TableId { get; set; }
     public Guid OrderId { get; set; }
 
-    public Table Table { get; set; } = new();
-    public User User { get; set; } = new();
-    public List<Dish> Dishes { get; set; } = new();
+    public TableEntity Table { get; set; } = new();
+    public UserEntity User { get; set; } = new();
+    public List<DishEntity> Dishes { get; set; } = new();
 }
