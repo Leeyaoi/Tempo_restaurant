@@ -1,8 +1,10 @@
 ﻿namespace Tempo_DAL.Entities;
 
-public class Table
+public class Table : BaseEntity
 {
-    public Guid Id { get; set; }
     public int Max_people { get; set; }
+    public Guid WaiterId { get; set; }
+
+    public List<Order> OrderList { get; set; } = new();
     public Waiter Waiter { get; set; } = new();
 }
