@@ -8,6 +8,6 @@ public class DishEntity : BaseEntity
     public Guid CategoryId { get; set; }
 
     public CategoryEntity Category { get; set; } = new();
-    public List<DishwareDish> DishwareList { get; set;} = new();
+    public List<DishwareDishEntity> DishwareList { get; set;} = new();
     public List<TablewareEntity> TablewareList { get; set; } = new();
 }
