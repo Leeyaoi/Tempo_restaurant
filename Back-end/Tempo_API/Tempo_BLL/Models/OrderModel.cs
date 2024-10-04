@@ -8,6 +8,7 @@ public class OrderModel : BaseModel
     public OrderStatus Status { get; set; }
     public Guid TableId { get; set; }
     public Guid OrderId { get; set; }
+    public List<Guid> DishesId { get; set; } = new();
 
     public TableModel Table { get; set; } = new();
     public UserModel User { get; set; } = new();
