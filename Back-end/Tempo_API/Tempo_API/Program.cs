@@ -1,3 +1,4 @@
+using Tempo_API.Mapper;
 using Tempo_BLL.Mapper;
 
 namespace Tempo_API;
@@ -12,7 +13,7 @@ static class Program
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
-        builder.Services.AddAutoMapper(typeof(BllMapperProfile).Assembly);
+        builder.Services.AddAutoMapper(typeof(BllMapperProfile).Assembly, typeof(ApiMapperProfile).Assembly);
 
         var app = builder.Build();
 
