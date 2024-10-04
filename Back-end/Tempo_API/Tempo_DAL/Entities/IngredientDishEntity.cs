@@ -1,6 +1,6 @@
 ﻿namespace Tempo_DAL.Entities;
 
-public class IngredientDishEntity
+public class IngredientDishEntity : BaseEntity
 {
     public double Needed { get; set; }
     public Guid DishId { get; set; }

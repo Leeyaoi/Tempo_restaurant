@@ -1,6 +1,6 @@
 ﻿namespace Tempo_DAL.Entities;
 
-public class DishwareDishEntity
+public class DishwareDishEntity : BaseEntity
 {
     public Guid DishwareId { get; set; }
     public Guid DishId { get; set; }
