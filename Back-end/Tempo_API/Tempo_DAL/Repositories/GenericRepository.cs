@@ -16,34 +16,29 @@ public class GenericRepository<Entity> : IGenericRepository<Entity> where Entity
         dbSet = dbContext.Set<Entity>();
     }
 
-    public async Task<Entity> Create(Entity element, CancellationToken cancellationToken)
+    public async Task<Entity> Create(Entity entity, CancellationToken cancellationToken)
     {
-        dbSet.Add(element);
+        var result = await dbSet.AddAsync(entity);
         await dbContext.SaveChangesAsync(cancellationToken);
-        return element;
+        return result.Entity;
     }
 
-    public async Task Delete(Guid id, CancellationToken cancellationToken)
+    public Task Delete(Entity entity, CancellationToken cancellationToken)
     {
-        var element = await dbSet.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
-
-        if (element != null)   
-        {
-            dbSet.Remove(element);
-            await dbContext.SaveChangesAsync(cancellationToken);
-        }
+        dbContext.Remove(entity);
+        return dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<Entity> Update(Entity element, CancellationToken cancellationToken)
+    public async Task<Entity> Update(Entity entity, CancellationToken cancellationToken)
     {
-        dbSet.Update(element);
+        var result = dbSet.Update(entity);
         await dbContext.SaveChangesAsync(cancellationToken);
-        return element;
+        return result.Entity;
     }
 
     public Task<List<Entity>> GetAll(CancellationToken cancellationToken)
     {
-        return dbSet.ToListAsync(cancellationToken);
+        return dbSet.AsNoTracking().ToListAsync(cancellationToken);
     }
 
     public Task<Entity?> GetById(Guid id, CancellationToken cancellationToken)
