@@ -50,6 +50,4 @@ public class GenericRepository<Entity> : IGenericRepository<Entity> where Entity
     {
         return dbSet.AsNoTracking().Where(predicate).ToListAsync(cancellationToken);
     }
-
-
 }

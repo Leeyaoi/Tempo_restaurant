@@ -1,6 +1,7 @@
 using Tempo_API.Mapper;
 using dotenv.net;
 using Tempo_BLL.Mapper;
+using Tempo_BLL.DI;
 using Tempo_DAL.DI;
 using Tempo_Shared.DI;
 
@@ -19,9 +20,12 @@ static class Program
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
-        builder.Services.AddAutoMapper(typeof(BllMapperProfile).Assembly, typeof(ApiMapperProfile).Assembly);
+
         builder.Services.RegisterSharedDependencies();
         builder.Services.RegisterDALDependencies(builder.Configuration);
+        builder.Services.RegisterBllDependencies();
+
+        builder.Services.AddAutoMapper(typeof(BllMapperProfile).Assembly, typeof(ApiMapperProfile).Assembly);
 
         var app = builder.Build();
 
