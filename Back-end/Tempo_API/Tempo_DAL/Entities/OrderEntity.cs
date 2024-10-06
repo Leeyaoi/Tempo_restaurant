@@ -1,4 +1,4 @@
-﻿using Tempo_Shared;
+﻿using Tempo_Shared.Enums;
 
 namespace Tempo_DAL.Entities;
 

@@ -1,7 +1,7 @@
 ﻿using Tempo_API.DTOs.DishDtos;
 using Tempo_API.DTOs.TableDtos;
 using Tempo_API.DTOs.UserDtos;
-using Tempo_Shared;
+using Tempo_Shared.Enums;
 
 namespace Tempo_API.DTOs.OrderDtos;
 
