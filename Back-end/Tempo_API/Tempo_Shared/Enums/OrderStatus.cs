@@ -1,4 +1,4 @@
-﻿namespace Tempo_Shared;
+﻿namespace Tempo_Shared.Enums;
 
 public enum OrderStatus
 {
