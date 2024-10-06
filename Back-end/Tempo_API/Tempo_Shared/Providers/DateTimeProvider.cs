@@ -1,5 +1,4 @@
-﻿
-namespace Tempo_Shared.Providers;
+﻿namespace Tempo_Shared.Providers;
 
 public class DateTimeProvider : IDateTimeProvider
 {

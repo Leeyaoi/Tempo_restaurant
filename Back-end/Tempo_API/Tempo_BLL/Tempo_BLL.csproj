@@ -15,8 +15,4 @@
     <ProjectReference Include="..\Tempo_Shared\Tempo_Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DI\" />
-  </ItemGroup>
-
 </Project>

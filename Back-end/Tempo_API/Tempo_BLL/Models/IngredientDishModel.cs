@@ -1,6 +1,6 @@
 ﻿namespace Tempo_BLL.Models;
 
-public class IngredientDishModel
+public class IngredientDishModel : BaseModel
 {
     public double Needed { get; set; }
     public Guid DishId { get; set; }
