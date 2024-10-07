@@ -16,10 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Tempo_BLL\Tempo_BLL.csproj" />
     <ProjectReference Include="..\Tempo_DAL\Tempo_DAL.csproj" />
     <ProjectReference Include="..\Tempo_Shared\Tempo_Shared.csproj" />
