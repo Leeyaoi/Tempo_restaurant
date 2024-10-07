@@ -26,14 +26,15 @@ public class GenericService<Model, Entity> : IGenericService<Model> where Model 
         return _mapper.Map<Model>(result);
     }
 
-    public Task Delete(Model model, CancellationToken cancellationToken)
+    public async Task Delete(Guid id, CancellationToken cancellationToken)
     {
-        var entity = _mapper.Map<Entity>(model);
-        return _repository.Delete(entity, cancellationToken);
+        var entity = await _repository.GetById(id, cancellationToken);
+        await _repository.Delete(entity, cancellationToken);
     }
 
-    public async Task<Model> Update(Model model, CancellationToken cancellationToken)
+    public async Task<Model> Update(Guid id, Model model, CancellationToken cancellationToken)
     {
+        model.Id = id;
         var entity = _mapper.Map<Entity>(model);
         var result = await _repository.Update(entity, cancellationToken);
         return _mapper.Map<Model>(result);
