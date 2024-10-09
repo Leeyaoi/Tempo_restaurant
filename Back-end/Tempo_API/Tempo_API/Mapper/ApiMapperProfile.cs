@@ -52,8 +52,8 @@ public class ApiMapperProfile : Profile
         CreateMap<DrinkDto, CreateDrinkDto>().ReverseMap();
 
         CreateMap<EmployeeModel, EmployeeDto>().ReverseMap();
-        CreateMap<EmployeeModel, CreateEmoloyeeDto>().ReverseMap();
-        CreateMap<EmployeeDto, CreateEmoloyeeDto>().ReverseMap();
+        CreateMap<EmployeeModel, CreateEmployeeDto>().ReverseMap();
+        CreateMap<EmployeeDto, CreateEmployeeDto>().ReverseMap();
 
         CreateMap<IngredientModel, IngredientDto>().ReverseMap();
         CreateMap<IngredientModel, CreateIngredientDto>().ReverseMap();
