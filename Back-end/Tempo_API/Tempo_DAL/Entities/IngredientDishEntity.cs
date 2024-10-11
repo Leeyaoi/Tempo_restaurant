@@ -6,6 +6,6 @@ public class IngredientDishEntity : BaseEntity
     public Guid DishId { get; set; }
     public Guid IngredientId { get; set; }
 
-    public DishEntity Dish { get; set; } = new();
-    public IngredientEntity Ingredient { get; set; } = new();
+    public DishEntity? Dish { get; set; }
+    public IngredientEntity? Ingredient { get; set; }
 }

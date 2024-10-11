@@ -4,7 +4,6 @@ public class CreateOrderDto
 {
     public int People_num { get; set; }
     public Guid TableId { get; set; }
-    public Guid OrderId { get; set; }
 
     public List<Guid> DishesId { get; set; } = new();
 }

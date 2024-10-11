@@ -10,6 +10,6 @@ public class WaiterDto
     public string Surname { get; set; } = string.Empty;
     public Guid EmployeeId { get; set; }
 
-    public EmployeeDto Employee { get; set; } = new();
-    public List<TableDto> Tables { get; set; } = new();
+    public EmployeeDto? Employee { get; set; }
+    public List<TableDto?> Tables { get; set; } = new();
 }

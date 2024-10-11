@@ -9,6 +9,6 @@ public class IngredientDishDto
     public Guid DishId { get; set; }
     public Guid IngredientId { get; set; }
 
-    public DishDto Dish { get; set; } = new();
-    public IngredientDto Ingredient { get; set; } = new();
+    public DishDto? Dish { get; set; }
+    public IngredientDto? Ingredient { get; set; }
 }

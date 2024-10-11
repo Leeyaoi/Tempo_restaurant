@@ -7,6 +7,6 @@ public class CookEntity : BaseEntity
     public Guid EmployeeId { get; set; }
     public Guid CategoryId { get; set; }
 
-    public EmployeeEntity Employee { get; set; } = new();
-    public CategoryEntity Category { get; set; } = new();
+    public EmployeeEntity? Employee { get; set; }
+    public CategoryEntity? Category { get; set; }
 }

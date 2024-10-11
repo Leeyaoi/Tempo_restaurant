@@ -9,6 +9,6 @@ public class TableDto
     public int Max_people { get; set; }
     public Guid WaiterId { get; set; }
 
-    public List<OrderDto> OrderList { get; set; } = new();
-    public WaiterDto Waiter { get; set; } = new();
+    public List<OrderDto?> OrderList { get; set; } = new();
+    public WaiterDto? Waiter { get; set; }
 }

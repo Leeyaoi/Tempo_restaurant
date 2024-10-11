@@ -5,6 +5,6 @@ public class DishwareDishModel : BaseModel
     public Guid DishwareId { get; set; }
     public Guid DishId { get; set; }
 
-    public DishwareModel Dishware { get; set; } = new();
-    public DishModel Dish { get; set; } = new();
+    public DishwareModel? Dishware { get; set; }
+    public DishModel? Dish { get; set; }
 }

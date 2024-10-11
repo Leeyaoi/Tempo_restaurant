@@ -11,6 +11,6 @@ public class CookDto
     public Guid EmployeeId { get; set; }
     public Guid CategoryId { get; set; }
 
-    public EmployeeDto Employee { get; set; } = new();
-    public CategoryDto Category { get; set; } = new();
+    public EmployeeDto? Employee { get; set; }
+    public CategoryDto? Category { get; set; }
 }

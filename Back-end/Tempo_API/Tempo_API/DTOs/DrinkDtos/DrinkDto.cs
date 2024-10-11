@@ -8,5 +8,5 @@ public class DrinkDto
     public string Name { get; set; } = string.Empty;
     public Guid CategoryId { get; set; }
 
-    public CategoryDto Category { get; set; } = new();
+    public CategoryDto? Category { get; set; }
 }

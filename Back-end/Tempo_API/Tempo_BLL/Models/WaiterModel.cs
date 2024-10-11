@@ -6,6 +6,6 @@ public class WaiterModel : BaseModel
     public string Surname { get; set; } = string.Empty;
     public Guid EmployeeId { get; set; }
 
-    public EmployeeModel Employee { get; set; } = new();
-    public List<TableModel> Tables { get; set; } = new();
+    public EmployeeModel? Employee { get; set; }
+    public List<TableModel?> Tables { get; set; } = new();
 }

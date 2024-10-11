@@ -8,6 +8,6 @@ public class DishwareDishDto
     public Guid DishwareId { get; set; }
     public Guid DishId { get; set; }
 
-    public DishwareDto Dishware { get; set; } = new();
-    public DishDto Dish { get; set; } = new();
+    public DishwareDto? Dishware { get; set; }
+    public DishDto? Dish { get; set; }
 }

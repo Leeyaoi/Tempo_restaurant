@@ -5,5 +5,5 @@ public class UserEntity : BaseEntity
     public string Name { get; set; } = string.Empty;
     public string Phone { get; set; } = string.Empty;
 
-    public List<OrderEntity> Orders { get; set; } = new();
+    public List<OrderEntity?> Orders { get; set; } = new();
 }
