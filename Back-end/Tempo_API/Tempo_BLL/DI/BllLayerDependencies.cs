@@ -8,6 +8,14 @@ public static class BllLayerDependencies
 {
     public static void RegisterBllDependencies(this IServiceCollection services)
     {
+        services.AddTransient<IBillService, BillService>();
+        services.AddTransient<ICategoryService, CategoryService>();
+        services.AddTransient<ICookService, CookService>();
+        services.AddTransient<IDishService, DishService>();
+        services.AddTransient<IDishwareDishService, DishwareDishService>();
+        services.AddTransient<IDishwareService, DishwareService>();
+        services.AddTransient<IDrinkService, DrinkService>();
+        services.AddTransient<IEmployeeService, EmployeesService>();
         services.AddTransient<IIngredientDishService, IngredientDishService>();
         services.AddTransient<IIngredientService, IngredientService>();
         services.AddTransient<IOrderService, OrderService>();
