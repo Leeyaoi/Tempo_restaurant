@@ -8,5 +8,5 @@ public class UserDto
     public string Name { get; set; } = string.Empty;
     public string Phone { get; set; } = string.Empty;
 
-    public List<OrderDto> Orders { get; set; } = new();
+    public List<OrderDto?> Orders { get; set; } = new();
 }

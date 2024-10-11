@@ -12,7 +12,7 @@ public class DishDto
     public Decimal Price { get; set; }
     public Guid CategoryId { get; set; }
 
-    public CategoryDto Category { get; set; } = new();
-    public List<DishwareDishDto> DishwareList { get; set; } = new();
-    public List<TablewareDto> TablewareList { get; set; } = new();
+    public CategoryDto? Category { get; set; }
+    public List<DishwareDishDto?> DishwareList { get; set; } = new();
+    public List<TablewareDto?> TablewareList { get; set; } = new();
 }

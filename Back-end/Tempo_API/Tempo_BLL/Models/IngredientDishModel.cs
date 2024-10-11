@@ -6,6 +6,6 @@ public class IngredientDishModel : BaseModel
     public Guid DishId { get; set; }
     public Guid IngredientId { get; set; }
 
-    public DishModel Dish { get; set; } = new();
-    public IngredientModel Ingredient { get; set; } = new();
+    public DishModel? Dish { get; set; }
+    public IngredientModel? Ingredient { get; set; } = new();
 }

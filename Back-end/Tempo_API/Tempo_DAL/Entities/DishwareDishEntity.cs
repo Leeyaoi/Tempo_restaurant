@@ -5,6 +5,6 @@ public class DishwareDishEntity : BaseEntity
     public Guid DishwareId { get; set; }
     public Guid DishId { get; set; }
 
-    public DishwareEntity Dishware { get; set; } = new();
-    public DishEntity Dish { get; set; } = new();
+    public DishwareEntity? Dishware { get; set; }
+    public DishEntity? Dish { get; set; }
 }

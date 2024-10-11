@@ -11,10 +11,9 @@ public class OrderDto
     public int People_num { get; set; }
     public OrderStatus Status { get; set; }
     public Guid TableId { get; set; }
-    public Guid OrderId { get; set; }
     public List<Guid> DishesId { get; set; } = new();
 
-    public TableDto Table { get; set; } = new();
-    public UserDto User { get; set; } = new();
-    public List<DishDto> Dishes { get; set; } = new();
+    public TableDto? Table { get; set; }
+    public UserDto? User { get; set; }
+    public List<DishDto?> Dishes { get; set; } = new();
 }

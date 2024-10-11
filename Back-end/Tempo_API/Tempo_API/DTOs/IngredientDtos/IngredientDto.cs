@@ -8,5 +8,5 @@ public class IngredientDto
     public string Name { get; set; } = string.Empty;
     public double In_stock { get; set; }
 
-    public List<IngredientDishDto> IngredientDish { get; set; } = new();
+    public List<IngredientDishDto?> IngredientDish { get; set; } = new();
 }

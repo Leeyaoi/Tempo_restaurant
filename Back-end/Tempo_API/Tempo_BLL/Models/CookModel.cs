@@ -7,6 +7,6 @@ public class CookModel : BaseModel
     public Guid EmployeeId { get; set; }
     public Guid CategoryId { get; set; }
 
-    public EmployeeModel Employee { get; set; } = new();
-    public CategoryModel Category { get; set; } = new();
+    public EmployeeModel? Employee { get; set; }
+    public CategoryModel? Category { get; set; } 
 }

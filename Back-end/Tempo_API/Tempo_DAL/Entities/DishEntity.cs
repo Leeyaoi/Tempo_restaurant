@@ -7,7 +7,7 @@ public class DishEntity : BaseEntity
     public Decimal Price { get; set; }
     public Guid CategoryId { get; set; }
 
-    public CategoryEntity Category { get; set; } = new();
-    public List<DishwareDishEntity> DishwareList { get; set;} = new();
-    public List<TablewareEntity> TablewareList { get; set; } = new();
+    public CategoryEntity? Category { get; set; }
+    public List<DishwareDishEntity?> DishwareList { get; set;} = new();
+    public List<TablewareEntity?> TablewareList { get; set; } = new();
 }

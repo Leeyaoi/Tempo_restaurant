@@ -8,5 +8,5 @@ public class TablewareDto
     public string Type { get; set; } = string.Empty;
     public double In_stock { get; set; }
 
-    public List<TablewareDishDto> Dishes { get; set; } = new();
+    public List<TablewareDishDto?> Dishes { get; set; } = new();
 }

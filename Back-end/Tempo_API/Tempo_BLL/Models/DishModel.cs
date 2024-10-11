@@ -7,7 +7,7 @@ public class DishModel : BaseModel
     public Decimal Price { get; set; }
     public Guid CategoryId { get; set; }
 
-    public CategoryModel Category { get; set; } = new();
-    public List<DishwareDishModel> DishwareList { get; set; } = new();
-    public List<TablewareModel> TablewareList { get; set; } = new();
+    public CategoryModel? Category { get; set; }
+    public List<DishwareDishModel?> DishwareList { get; set; } = new();
+    public List<TablewareModel?> TablewareList { get; set; } = new();
 }

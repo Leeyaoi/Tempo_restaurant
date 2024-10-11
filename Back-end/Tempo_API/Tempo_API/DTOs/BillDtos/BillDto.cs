@@ -8,5 +8,5 @@ public class BillDto
     public bool Cash { get; set; }
     public Guid OrderId { get; set; }
 
-    public OrderDto Order { get; set; } = new();
+    public OrderDto? Order { get; set; }
 }
