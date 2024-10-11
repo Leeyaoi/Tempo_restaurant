@@ -4,6 +4,7 @@ using Tempo_BLL.Mapper;
 using Tempo_BLL.DI;
 using Tempo_DAL.DI;
 using Tempo_Shared.DI;
+using Tempo_API.DI;
 
 namespace Tempo_API;
 
@@ -21,6 +22,7 @@ static class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
+        builder.RegisterApiDependencies();
         builder.Services.RegisterSharedDependencies();
         builder.Services.RegisterDALDependencies(builder.Configuration);
         builder.Services.RegisterBllDependencies();
