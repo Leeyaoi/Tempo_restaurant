@@ -16,6 +16,14 @@ namespace Tempo_DAL.DI
                 option.UseNpgsql(connectionString);
             }, ServiceLifetime.Transient);
 
+            services.AddTransient<IBillRepository, BillRepository>();
+            services.AddTransient<ICategoryRepository, CategoryRepository>();
+            services.AddTransient<ICookRepository, CookRepository>();
+            services.AddTransient<IDishRepository, DishRepository>();
+            services.AddTransient<IDishwareDishRepository, DishwareDishRepository>();
+            services.AddTransient<IDishwareRepository, DishwareRepository>();
+            services.AddTransient<IDrinkRepository, DrinkRepository>();
+            services.AddTransient<IEmployeeRepository, EmployeeRepository>();
             services.AddTransient<IIngredientDishRepository, IngredientDishRepository>();
             services.AddTransient<IIngredientRepository, IngredientRepository>();
             services.AddTransient<IOrderRepository, OrderRepository>();
