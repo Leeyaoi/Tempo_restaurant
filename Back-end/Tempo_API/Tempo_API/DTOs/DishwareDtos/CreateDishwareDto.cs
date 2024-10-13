@@ -1,6 +1,8 @@
-﻿namespace Tempo_API.DTOs.DishwareDtos;
+﻿using Tempo_API.Interfaces;
 
-public class CreateDishwareDto
+namespace Tempo_API.DTOs.DishwareDtos;
+
+public class CreateDishwareDto : IBaseDto
 {
     public string Type { get; set; } = string.Empty;
     public double In_stock { get; set; }

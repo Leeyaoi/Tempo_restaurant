@@ -1,8 +1,9 @@
 ﻿using Tempo_API.DTOs.CategoryDtos;
+using Tempo_API.Interfaces;
 
 namespace Tempo_API.DTOs.DrinkDtos;
 
-public class DrinkDto
+public class DrinkDto : IBaseDto
 {
     public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;

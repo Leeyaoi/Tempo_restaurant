@@ -1,9 +1,10 @@
 ﻿using Tempo_API.DTOs.OrderDtos;
 using Tempo_API.DTOs.WaiterDtos;
+using Tempo_API.Interfaces;
 
 namespace Tempo_API.DTOs.TableDtos;
 
-public class TableDto
+public class TableDto : IBaseDto
 {
     public Guid Id { get; set; }
     public int Max_people { get; set; }

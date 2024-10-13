@@ -1,6 +1,8 @@
-﻿namespace Tempo_API.DTOs.DishDtos;
+﻿using Tempo_API.Interfaces;
 
-public class CreateDishDto
+namespace Tempo_API.DTOs.DishDtos;
+
+public class CreateDishDto : IBaseDto
 {
     public string Name { get; set; } = string.Empty;
     public DateTime Approx_time { get; set; }

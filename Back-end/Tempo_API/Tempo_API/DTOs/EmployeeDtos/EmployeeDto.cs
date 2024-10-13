@@ -1,9 +1,10 @@
 ﻿using Tempo_API.DTOs.CookDtos;
 using Tempo_API.DTOs.WaiterDtos;
+using Tempo_API.Interfaces;
 
 namespace Tempo_API.DTOs.EmployeeDtos;
 
-public class EmployeeDto
+public class EmployeeDto : IBaseDto
 {
     public Guid Id { get; set; }
     public string Login { get; set; } = string.Empty;

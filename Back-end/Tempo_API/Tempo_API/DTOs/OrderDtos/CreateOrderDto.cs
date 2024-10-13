@@ -1,6 +1,8 @@
-﻿namespace Tempo_API.DTOs.OrderDtos;
+﻿using Tempo_API.Interfaces;
 
-public class CreateOrderDto
+namespace Tempo_API.DTOs.OrderDtos;
+
+public class CreateOrderDto : IBaseDto
 {
     public int People_num { get; set; }
     public Guid TableId { get; set; }
