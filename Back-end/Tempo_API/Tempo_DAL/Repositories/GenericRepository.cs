@@ -36,9 +36,12 @@ public class GenericRepository<Entity> : IGenericRepository<Entity> where Entity
         return result.Entity;
     }
 
-    public Task<List<Entity>> GetAll(CancellationToken cancellationToken)
+    public Task<List<Entity>> GetAll(CancellationToken cancellationToken, out int total, out int count)
     {
-        return dbSet.AsNoTracking().ToListAsync(cancellationToken);
+        var data = dbSet.AsNoTracking();
+        total = data.Count();
+        count = 1;
+        return data.ToListAsync(cancellationToken);
     }
 
     public Task<Entity?> GetById(Guid id, CancellationToken cancellationToken)
@@ -49,5 +52,17 @@ public class GenericRepository<Entity> : IGenericRepository<Entity> where Entity
     public Task<List<Entity>> GetByPredicate(Expression<Func<Entity, bool>> predicate, CancellationToken cancellationToken)
     {
         return dbSet.AsNoTracking().Where(predicate).ToListAsync(cancellationToken);
+    }
+
+    public Task<List<Entity>> Paginate(int limit, int page, CancellationToken cancellationToken, out int total, out int count, Expression<Func<Entity, bool>>? predicate)
+    {
+        var data = dbSet.AsNoTracking();
+        if (predicate != null)
+        {
+            data = data.Where(predicate);
+        }
+        total = data.Count();
+        count = total / limit;
+        return data.Skip(limit * (page - 1)).Take(limit).ToListAsync(cancellationToken);
     }
 }

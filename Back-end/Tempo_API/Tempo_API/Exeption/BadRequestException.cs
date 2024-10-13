@@ -1,9 +1,8 @@
-﻿namespace Tempo_API.Exeption
+﻿namespace Tempo_API.Exeption;
+
+public class BadRequestException : Exception
 {
-    public class BadRequestException : Exception
-    {
-        public BadRequestException() { }
-        public BadRequestException(string message) : base(message) { }
-        public BadRequestException(string message, Exception inner) : base(message, inner) { }
-    }
+    public BadRequestException() { }
+    public BadRequestException(string message) : base(message) { }
+    public BadRequestException(string message, Exception inner) : base(message, inner) { }
 }

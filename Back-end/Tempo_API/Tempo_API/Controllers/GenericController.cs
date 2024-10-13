@@ -20,10 +20,9 @@ public class GenericController<Model, Dto, CreateDto> : ControllerBase where Mod
     }
 
     [HttpGet]
-    public async Task<IEnumerable<Dto>> GetAll(CancellationToken cancellationToken)
+    public Task<PaginatedModel<Model>> GetAll(CancellationToken cancellationToken, int? page, int? limit = 10)
     {
-        var models = await _service.GetAll(cancellationToken);
-        return _mapper.Map<IEnumerable<Dto>>(models);
+        return _service.GetAll(cancellationToken, page, limit);
     }
 
     [HttpGet("{id}")]

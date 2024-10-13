@@ -11,7 +11,7 @@ public interface IGenericService<Model> where Model : BaseModel
 
     Task<Model> Update(Guid id, Model model, CancellationToken cancellationToken);
 
-    Task<List<Model>> GetAll(CancellationToken cancellationToken);
+    Task<PaginatedModel<Model>> GetAll(CancellationToken cancellationToken, int? page, int? limit);
 
     Task<Model?> GetById(Guid id, CancellationToken cancellationToken);
 
