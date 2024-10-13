@@ -1,6 +1,8 @@
-﻿namespace Tempo_API.DTOs.CookDtos;
+﻿using Tempo_API.Interfaces;
 
-public class CreateCookDto
+namespace Tempo_API.DTOs.CookDtos;
+
+public class CreateCookDto : IBaseDto
 {
     public string Name { get; set; } = string.Empty;
     public string Surname { get; set; } = string.Empty;

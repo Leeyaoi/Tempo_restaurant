@@ -1,8 +1,9 @@
 ﻿using Tempo_API.DTOs.IngredientDishDtos;
+using Tempo_API.Interfaces;
 
 namespace Tempo_API.DTOs.IngredientDtos;
 
-public class IngredientDto
+public class IngredientDto : IBaseDto
 {
     public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;

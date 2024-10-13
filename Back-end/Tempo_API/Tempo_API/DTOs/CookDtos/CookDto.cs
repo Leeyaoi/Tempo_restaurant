@@ -1,9 +1,10 @@
 ﻿using Tempo_API.DTOs.CategoryDtos;
 using Tempo_API.DTOs.EmployeeDtos;
+using Tempo_API.Interfaces;
 
 namespace Tempo_API.DTOs.CookDtos;
 
-public class CookDto
+public class CookDto : IBaseDto
 {
     public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;

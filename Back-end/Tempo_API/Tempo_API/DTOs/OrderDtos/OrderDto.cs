@@ -1,11 +1,12 @@
 ﻿using Tempo_API.DTOs.DishDtos;
 using Tempo_API.DTOs.TableDtos;
 using Tempo_API.DTOs.UserDtos;
+using Tempo_API.Interfaces;
 using Tempo_Shared.Enums;
 
 namespace Tempo_API.DTOs.OrderDtos;
 
-public class OrderDto
+public class OrderDto : IBaseDto
 {
     public Guid Id { get; set; }
     public int People_num { get; set; }

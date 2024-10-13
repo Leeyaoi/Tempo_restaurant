@@ -1,6 +1,8 @@
-﻿namespace Tempo_API.DTOs.EmployeeDtos;
+﻿using Tempo_API.Interfaces;
 
-public class CreateEmployeeDto
+namespace Tempo_API.DTOs.EmployeeDtos;
+
+public class CreateEmployeeDto : IBaseDto
 {
     public string Login { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;

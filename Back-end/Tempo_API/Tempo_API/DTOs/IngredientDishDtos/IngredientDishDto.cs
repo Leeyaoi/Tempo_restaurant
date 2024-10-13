@@ -1,9 +1,10 @@
 ﻿using Tempo_API.DTOs.DishDtos;
 using Tempo_API.DTOs.IngredientDtos;
+using Tempo_API.Interfaces;
 
 namespace Tempo_API.DTOs.IngredientDishDtos;
 
-public class IngredientDishDto
+public class IngredientDishDto : IBaseDto
 {
     public double Needed { get; set; }
     public Guid DishId { get; set; }

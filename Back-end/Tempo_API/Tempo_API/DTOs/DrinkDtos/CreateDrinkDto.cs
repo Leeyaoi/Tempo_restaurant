@@ -1,6 +1,8 @@
-﻿namespace Tempo_API.DTOs.DrinkDtos;
+﻿using Tempo_API.Interfaces;
 
-public class CreateDrinkDto
+namespace Tempo_API.DTOs.DrinkDtos;
+
+public class CreateDrinkDto : IBaseDto
 {
     public string Name { get; set; } = string.Empty;
     public Guid CategoryId { get; set; }
