@@ -1,6 +1,8 @@
-﻿namespace Tempo_API.DTOs.TableDtos;
+﻿using Tempo_API.Interfaces;
 
-public class CreateTableDto
+namespace Tempo_API.DTOs.TableDtos;
+
+public class CreateTableDto : IBaseDto
 {
     public int Max_people { get; set; }
     public Guid WaiterId { get; set; }

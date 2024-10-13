@@ -1,9 +1,10 @@
 ﻿using Tempo_API.DTOs.EmployeeDtos;
 using Tempo_API.DTOs.TableDtos;
+using Tempo_API.Interfaces;
 
 namespace Tempo_API.DTOs.WaiterDtos;
 
-public class WaiterDto
+public class WaiterDto : IBaseDto
 {
     public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;

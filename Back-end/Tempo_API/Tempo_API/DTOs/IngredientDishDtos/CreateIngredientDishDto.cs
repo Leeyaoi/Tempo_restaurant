@@ -1,6 +1,8 @@
-﻿namespace Tempo_API.DTOs.IngredientDishDtos;
+﻿using Tempo_API.Interfaces;
 
-public class CreateIngredientDishDto
+namespace Tempo_API.DTOs.IngredientDishDtos;
+
+public class CreateIngredientDishDto : IBaseDto
 {
     public double Needed { get; set; }
     public Guid DishId { get; set; }

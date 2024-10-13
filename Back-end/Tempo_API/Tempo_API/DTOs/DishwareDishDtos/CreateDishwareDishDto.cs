@@ -1,6 +1,8 @@
-﻿namespace Tempo_API.DTOs.DishwareDishDtos;
+﻿using Tempo_API.Interfaces;
 
-public class CreateDishwareDishDto
+namespace Tempo_API.DTOs.DishwareDishDtos;
+
+public class CreateDishwareDishDto : IBaseDto
 {
     public Guid DishwareId { get; set; }
     public Guid DishId { get; set; }

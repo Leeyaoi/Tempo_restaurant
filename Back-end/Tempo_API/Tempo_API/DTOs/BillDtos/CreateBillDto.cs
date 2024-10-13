@@ -1,6 +1,8 @@
-﻿namespace Tempo_API.DTOs.BillDtos;
+﻿using Tempo_API.Interfaces;
 
-public class CreateBillDto
+namespace Tempo_API.DTOs.BillDtos;
+
+public class CreateBillDto : IBaseDto
 {
     public bool Cash { get; set; }
     public Guid OrderId { get; set; }
