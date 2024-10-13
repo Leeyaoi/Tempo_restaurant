@@ -40,10 +40,26 @@ public class GenericService<Model, Entity> : IGenericService<Model> where Model 
         return _mapper.Map<Model>(result);
     }
 
-    public async Task<List<Model>> GetAll(CancellationToken cancellationToken)
+    public async Task<PaginatedModel<Model>> GetAll(CancellationToken cancellationToken, int? page, int? limit)
     {
-        var entities = await _repository.GetAll(cancellationToken);
-        return _mapper.Map<List<Model>>(entities);
+        List<Entity> entities;
+        int total, count;
+        if(page != null && limit != null)
+        {
+            entities = await _repository.Paginate((int)limit, (int)page, cancellationToken, out total, out count, null);
+        }
+        else
+        {
+            entities = await _repository.GetAll(cancellationToken, out total, out count);
+        }
+        return new PaginatedModel<Model>
+        {
+            Total = total,
+            Page = page ?? 1,
+            PageCount = count,
+            PageSize = limit ?? total,
+            Items = _mapper.Map<List<Model>>(entities)
+        };
     }
 
     public async Task<Model?> GetById(Guid id, CancellationToken cancellationToken)
