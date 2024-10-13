@@ -1,9 +1,8 @@
-﻿namespace Tempo_API.Exeption
+﻿namespace Tempo_API.Exeption;
+
+public class NotFoundException : Exception
 {
-    public class NotFoundException : Exception
-    {
-        public NotFoundException() { }
-        public NotFoundException(string message) : base(message) { }
-        public NotFoundException(string message, Exception inner) : base(message, inner) { }
-    }
+    public NotFoundException() { }
+    public NotFoundException(string message) : base(message) { }
+    public NotFoundException(string message, Exception inner) : base(message, inner) { }
 }
