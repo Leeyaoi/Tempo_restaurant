@@ -50,6 +50,7 @@ public class GenericService<Model, Entity> : IGenericService<Model> where Model 
         }
         else
         {
+            limit = null;
             entities = await _repository.GetAll(cancellationToken, out total, out count);
         }
         return new PaginatedModel<Model>
