@@ -36,7 +36,7 @@ public class GenericRepository<Entity> : IGenericRepository<Entity> where Entity
         return result.Entity;
     }
 
-    public Task<List<Entity>> GetAll(CancellationToken cancellationToken, out int total, out int count)
+    public virtual Task<List<Entity>> GetAll(CancellationToken cancellationToken, out int total, out int count)
     {
         var data = dbSet.AsNoTracking();
         total = data.Count();
@@ -44,7 +44,7 @@ public class GenericRepository<Entity> : IGenericRepository<Entity> where Entity
         return data.ToListAsync(cancellationToken);
     }
 
-    public Task<Entity?> GetById(Guid id, CancellationToken cancellationToken)
+    public virtual Task<Entity?> GetById(Guid id, CancellationToken cancellationToken)
     {
         return dbSet.AsNoTracking().Where(x => x.Id == id).FirstOrDefaultAsync(cancellationToken);
     }
