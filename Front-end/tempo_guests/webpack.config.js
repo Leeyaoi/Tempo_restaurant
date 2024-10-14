@@ -1,5 +1,8 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const fs = require("fs");
+const { server } = require("typescript");
+const { type } = require("os");
 
 module.exports = {
   entry: "./src/index.tsx",
@@ -25,4 +28,13 @@ module.exports = {
     }),
   ],
   mode: "development",
+  devServer: {
+    server: {
+      type: "https",
+      options: {
+        key: "./certs/cert.key",
+        cert: "./certs/cert.crt",
+      },
+    },
+  },
 };
