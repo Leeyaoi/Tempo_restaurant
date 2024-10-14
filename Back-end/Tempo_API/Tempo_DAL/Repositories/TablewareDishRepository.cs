@@ -1,11 +1,35 @@
-﻿using Tempo_DAL.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Tempo_DAL.Entities;
 using Tempo_DAL.Interfaces;
 
 namespace Tempo_DAL.Repositories;
 
 public class TablewareDishRepository : GenericRepository<TablewareDishEntity>, ITablewareDishRepository
 {
+    private readonly DbSet<TablewareDishEntity> dbSet;
     public TablewareDishRepository(TempoDbContext dbContext) : base(dbContext)
     {
+    }
+
+    public override Task<List<TablewareDishEntity>> GetAll(CancellationToken cancellationToken, out int total, out int count)
+    {
+        var data = dbSet
+            .AsNoTracking()
+            .Include(e => e.Dish)
+            .Include(e => e.Tableware);
+
+        total = data.Count();
+        count = 1;
+        return data.ToListAsync(cancellationToken);
+    }
+
+    public override Task<TablewareDishEntity?> GetById(Guid id, CancellationToken cancellationToken)
+    {
+        return dbSet
+            .AsNoTracking()
+            .Where(x => x.Id == id)
+            .Include(e => e.Dish)
+            .Include(e => e.Tableware)
+            .FirstOrDefaultAsync(cancellationToken);
     }
 }
