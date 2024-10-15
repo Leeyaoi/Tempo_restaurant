@@ -5,6 +5,7 @@ using Tempo_BLL.DI;
 using Tempo_DAL.DI;
 using Tempo_Shared.DI;
 using Tempo_API.DI;
+using Tempo_API.Middleware;
 
 namespace Tempo_API;
 
@@ -30,6 +31,8 @@ static class Program
         builder.Services.AddAutoMapper(typeof(BllMapperProfile).Assembly, typeof(ApiMapperProfile).Assembly);
 
         var app = builder.Build();
+
+        app.UseMiddleware<ExeptionHandlerMiddleware>();
 
         if (app.Environment.IsDevelopment())
         {
