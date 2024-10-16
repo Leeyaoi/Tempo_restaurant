@@ -7,8 +7,10 @@ namespace Tempo_DAL.Repositories;
 public class IngredientDishRepository : GenericRepository<IngredientDishEntity>, IIngredientDishRepository
 {
     private readonly DbSet<IngredientDishEntity> dbSet;
-    public IngredientDishRepository(TempoDbContext dbContext) : base(dbContext)
-    {}
+    public IngredientDishRepository(TempoDbContext dbcontext) : base(dbcontext)
+    {
+        dbSet = dbcontext.Set<IngredientDishEntity>();
+    }
     public override Task<List<IngredientDishEntity>> GetAll(CancellationToken cancellationToken, out int total, out int count)
     {
         var data = dbSet

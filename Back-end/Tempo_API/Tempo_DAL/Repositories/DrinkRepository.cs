@@ -7,8 +7,9 @@ namespace Tempo_DAL.Repositories;
 public class DrinkRepository : GenericRepository<DrinkEntity>, IDrinkRepository
 {
     private readonly DbSet<DrinkEntity> dbSet;
-    public DrinkRepository(TempoDbContext dbContext) :base(dbContext)
+    public DrinkRepository(TempoDbContext dbcontext) :base(dbcontext)
     {
+        dbSet = dbcontext.Set<DrinkEntity>();
     }
     public override Task<List<DrinkEntity>> GetAll(CancellationToken cancellationToken, out int total, out int count)
     {

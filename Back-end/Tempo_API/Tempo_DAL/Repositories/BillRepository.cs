@@ -10,6 +10,7 @@ public class BillRepository :GenericRepository<BillEntity>, IBillRepository
 
     public BillRepository(TempoDbContext dbcontext) : base(dbcontext) 
     {
+        dbSet = dbcontext.Set<BillEntity>();
     }
 
     public override Task<List<BillEntity>> GetAll(CancellationToken cancellationToken, out int total, out int count)

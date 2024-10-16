@@ -7,8 +7,9 @@ namespace Tempo_DAL.Repositories;
 public class CategoryRepository : GenericRepository<CategoryEntity>, ICategoryRepository
 {
     private readonly DbSet<CategoryEntity> dbSet;
-    public CategoryRepository(TempoDbContext dbContext) : base (dbContext) 
+    public CategoryRepository(TempoDbContext dbcontext) : base (dbcontext) 
     {
+        dbSet = dbcontext.Set<CategoryEntity>();
     }
     public override Task<List<CategoryEntity>> GetAll(CancellationToken cancellationToken, out int total, out int count)
     {

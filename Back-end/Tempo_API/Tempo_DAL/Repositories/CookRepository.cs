@@ -7,8 +7,9 @@ namespace Tempo_DAL.Repositories;
 public class CookRepository : GenericRepository<CookEntity>, ICookRepository
 {
     private readonly DbSet<CookEntity> dbSet;
-    public CookRepository(TempoDbContext dbContext) : base(dbContext) 
+    public CookRepository(TempoDbContext dbcontext) : base(dbcontext) 
     {
+        dbSet = dbcontext.Set<CookEntity>();
     }
 
     public override Task<List<CookEntity>> GetAll(CancellationToken cancellationToken, out int total, out int count)

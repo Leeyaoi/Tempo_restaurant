@@ -7,8 +7,9 @@ namespace Tempo_DAL.Repositories;
 public class TableRepository : GenericRepository<TableEntity>, ITableRepository
 {
     private readonly DbSet<TableEntity> dbSet;
-    public TableRepository(TempoDbContext dbContext) : base(dbContext)
+    public TableRepository(TempoDbContext dbcontext) : base(dbcontext)
     {
+        dbSet = dbcontext.Set<TableEntity>();
     }
     public override Task<List<TableEntity>> GetAll(CancellationToken cancellationToken, out int total, out int count)
     {

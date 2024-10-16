@@ -7,8 +7,9 @@ namespace Tempo_DAL.Repositories;
 public class UserRepository : GenericRepository<UserEntity>, IUserRepository
 {
     private readonly DbSet<UserEntity> dbSet;
-    public UserRepository(TempoDbContext dbContext) : base(dbContext)
+    public UserRepository(TempoDbContext dbсontext) : base(dbсontext)
     {
+        dbSet = dbсontext.Set<UserEntity>();
     }
 
     public override Task<List<UserEntity>> GetAll(CancellationToken cancellationToken, out int total, out int count)
