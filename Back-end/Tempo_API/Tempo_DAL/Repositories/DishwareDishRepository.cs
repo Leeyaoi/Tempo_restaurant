@@ -7,8 +7,9 @@ namespace Tempo_DAL.Repositories;
 public class DishwareDishRepository : GenericRepository<DishwareDishEntity>, IDishwareDishRepository
 {
     private readonly DbSet<DishwareDishEntity> dbSet;
-    public DishwareDishRepository(TempoDbContext dbContext) : base(dbContext) 
+    public DishwareDishRepository(TempoDbContext dbcontext) : base(dbcontext) 
     {
+        dbSet = dbcontext.Set<DishwareDishEntity>();
     }
 
     public override Task<List<DishwareDishEntity>> GetAll(CancellationToken cancellationToken, out int total, out int count)

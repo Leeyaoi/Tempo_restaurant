@@ -13,6 +13,7 @@ public class OrderDto : IBaseDto
     public OrderStatus Status { get; set; }
     public Guid TableId { get; set; }
     public List<Guid> DishesId { get; set; } = new();
+    public Guid UserId { get; set; }
 
     public TableDto? Table { get; set; }
     public UserDto? User { get; set; }

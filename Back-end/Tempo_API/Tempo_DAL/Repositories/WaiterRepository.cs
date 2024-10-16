@@ -7,8 +7,9 @@ namespace Tempo_DAL.Repositories;
 public class WaiterRepository : GenericRepository<WaiterEntity>, IWaiterRepository
 {
     private readonly DbSet<WaiterEntity> dbSet;
-    public WaiterRepository(TempoDbContext dbContext) : base(dbContext)
+    public WaiterRepository(TempoDbContext dbсontext) : base(dbсontext)
     {
+        dbSet = dbсontext.Set<WaiterEntity>();
     }
     public override Task<List<WaiterEntity>> GetAll(CancellationToken cancellationToken, out int total, out int count)
     {

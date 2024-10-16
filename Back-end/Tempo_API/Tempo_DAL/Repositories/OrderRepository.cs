@@ -7,8 +7,9 @@ namespace Tempo_DAL.Repositories;
 public class OrderRepository : GenericRepository<OrderEntity>, IOrderRepository
 {
     private readonly DbSet<OrderEntity> dbSet;
-    public OrderRepository(TempoDbContext dbContext) : base(dbContext)
+    public OrderRepository(TempoDbContext dbcontext) : base(dbcontext)
     {
+        dbSet = dbcontext.Set<OrderEntity>();
     }
     public override Task<List<OrderEntity>> GetAll(CancellationToken cancellationToken, out int total, out int count)
     {

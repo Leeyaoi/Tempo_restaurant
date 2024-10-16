@@ -7,8 +7,9 @@ namespace Tempo_DAL.Repositories;
 public class EmployeeRepository : GenericRepository<EmployeeEntity>, IEmployeeRepository
 {
     private readonly DbSet<EmployeeEntity> dbSet;
-    public EmployeeRepository(TempoDbContext dbContext) : base(dbContext) 
+    public EmployeeRepository(TempoDbContext dbcontext) : base(dbcontext) 
     {
+        dbSet = dbcontext.Set<EmployeeEntity>();
     }
     public override Task<List<EmployeeEntity>> GetAll(CancellationToken cancellationToken, out int total, out int count)
     {

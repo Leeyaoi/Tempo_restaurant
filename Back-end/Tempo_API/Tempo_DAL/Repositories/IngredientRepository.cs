@@ -7,8 +7,9 @@ namespace Tempo_DAL.Repositories;
 public class IngredientRepository : GenericRepository<IngredientEntity>, IIngredientRepository
 {
     private readonly DbSet<IngredientEntity> dbSet;
-    public IngredientRepository(TempoDbContext dbContext) : base(dbContext)
+    public IngredientRepository(TempoDbContext dbcontext) : base(dbcontext)
     {
+        dbSet = dbcontext.Set<IngredientEntity>();
     }
     public override Task<List<IngredientEntity>> GetAll(CancellationToken cancellationToken, out int total, out int count)
     {

@@ -7,6 +7,7 @@ public class OrderEntity : BaseEntity
     public int People_num { get; set; }
     public OrderStatus Status { get; set; }
     public Guid TableId { get; set; }
+    public Guid UserId { get; set; }
 
     public TableEntity? Table { get; set; }
     public UserEntity? User { get; set; }
