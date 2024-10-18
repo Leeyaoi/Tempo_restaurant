@@ -9,7 +9,7 @@ public class TempoDbContext : DbContext
     private readonly IDateTimeProvider _dateTime;
 
     public TempoDbContext(DbContextOptions<TempoDbContext> options, IDateTimeProvider dateTime)
-        :base (options)
+        : base(options)
     {
         _dateTime = dateTime;
 
@@ -28,7 +28,7 @@ public class TempoDbContext : DbContext
     public DbSet<DishwareEntity> Dishware { get; set; }
     public DbSet<DrinkEntity> Drink { get; set; }
     public DbSet<EmployeeEntity> Employee { get; set; }
-    public DbSet<IngredientDishEntity> IngredientDish { get;set; }
+    public DbSet<IngredientDishEntity> IngredientDish { get; set; }
     public DbSet<IngredientEntity> Ingredient { get; set; }
     public DbSet<OrderEntity> Order { get; set; }
     public DbSet<TableEntity> Table { get; set; }
@@ -43,7 +43,7 @@ public class TempoDbContext : DbContext
     }
 
     //Overrided just so you wouldn't be able to change fiellds CreatedAt and UpdatedAt as you wish
-    public override int SaveChanges()
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken)
     {
         ChangeTracker.DetectChanges();
 
@@ -70,6 +70,6 @@ public class TempoDbContext : DbContext
             }
         }
 
-        return base.SaveChanges();
+        return base.SaveChangesAsync(cancellationToken);
     }
 }

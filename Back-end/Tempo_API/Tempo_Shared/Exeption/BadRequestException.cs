@@ -1,4 +1,4 @@
-﻿namespace Tempo_API.Exeption;
+﻿namespace Tempo_Shared.Exeption;
 
 public class BadRequestException : Exception
 {
