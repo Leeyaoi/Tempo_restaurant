@@ -1,37 +1,53 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Tempo_DAL.Entities;
 using Tempo_DAL.Interfaces;
+using Tempo_Shared.Exeption;
 
 namespace Tempo_DAL.Repositories;
 
 public class CategoryRepository : GenericRepository<CategoryEntity>, ICategoryRepository
 {
-    private readonly DbSet<CategoryEntity> dbSet;
-    public CategoryRepository(TempoDbContext dbcontext) : base (dbcontext) 
+    public CategoryRepository(TempoDbContext dbcontext) : base(dbcontext)
     {
-        dbSet = dbcontext.Set<CategoryEntity>();
     }
+
     public override Task<List<CategoryEntity>> GetAll(CancellationToken cancellationToken, out int total, out int count)
     {
-        var data = dbSet
-            .AsNoTracking()
-            .Include(e => e.Cooks)
-            .Include(e => e.Drinks)
-            .Include(e => e.Dishes);
+        var data = from e in dbSet
+                   select new CategoryEntity()
+                   {
+                       Id = e.Id,
+                       CreatedAt = e.CreatedAt,
+                       UpdatedAt = e.UpdatedAt,
+                       Name = e.Name,
+                       Cooks = e.Cooks,
+                       Drinks = e.Drinks,
+                       Dishes = e.Dishes,
+                   };
 
         total = data.Count();
         count = 1;
         return data.ToListAsync(cancellationToken);
     }
 
-    public override Task<CategoryEntity?> GetById(Guid id, CancellationToken cancellationToken)
+    public override async Task<CategoryEntity> GetById(Guid id, CancellationToken cancellationToken)
     {
-        return dbSet
-            .AsNoTracking()
-            .Where(x => x.Id == id)
-            .Include(e => e.Cooks)
-            .Include(e => e.Drinks)
-            .Include(e => e.Dishes)
-            .FirstOrDefaultAsync(cancellationToken);
+        var result = await (from e in dbSet
+                            where e.Id == id
+                            select new CategoryEntity()
+                            {
+                                Id = e.Id,
+                                CreatedAt = e.CreatedAt,
+                                UpdatedAt = e.UpdatedAt,
+                                Name = e.Name,
+                                Cooks = e.Cooks,
+                                Drinks = e.Drinks,
+                                Dishes = e.Dishes,
+                            }).FirstOrDefaultAsync(cancellationToken);
+        if (result == null)
+        {
+            throw new NotFoundException();
+        }
+        return result;
     }
 }

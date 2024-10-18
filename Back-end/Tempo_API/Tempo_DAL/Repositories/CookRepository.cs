@@ -1,36 +1,57 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Tempo_DAL.Entities;
 using Tempo_DAL.Interfaces;
+using Tempo_Shared.Exeption;
 
 namespace Tempo_DAL.Repositories;
 
 public class CookRepository : GenericRepository<CookEntity>, ICookRepository
 {
-    private readonly DbSet<CookEntity> dbSet;
-    public CookRepository(TempoDbContext dbcontext) : base(dbcontext) 
+    public CookRepository(TempoDbContext dbcontext) : base(dbcontext)
     {
-        dbSet = dbcontext.Set<CookEntity>();
     }
 
     public override Task<List<CookEntity>> GetAll(CancellationToken cancellationToken, out int total, out int count)
     {
-        var data = dbSet
-            .AsNoTracking()
-            .Include(e => e.Employee)
-            .Include(e => e.Category);
+        var data = from e in dbSet
+                   select new CookEntity()
+                   {
+                       Id = e.Id,
+                       CreatedAt = e.CreatedAt,
+                       UpdatedAt = e.UpdatedAt,
+                       Name = e.Name,
+                       Surname = e.Surname,
+                       EmployeeId = e.EmployeeId,
+                       CategoryId = e.CategoryId,
+                       Employee = e.Employee,
+                       Category = e.Category,
+                   };
 
         total = data.Count();
         count = 1;
         return data.ToListAsync(cancellationToken);
     }
 
-    public override Task<CookEntity?> GetById(Guid id, CancellationToken cancellationToken)
+    public override async Task<CookEntity> GetById(Guid id, CancellationToken cancellationToken)
     {
-        return dbSet
-            .AsNoTracking()
-            .Where(x => x.Id == id)
-            .Include(e => e.Employee)
-            .Include(e => e.Category)
-            .FirstOrDefaultAsync(cancellationToken);
+        var result = await (from e in dbSet
+                            where e.Id == id
+                            select new CookEntity()
+                            {
+                                Id = e.Id,
+                                CreatedAt = e.CreatedAt,
+                                UpdatedAt = e.UpdatedAt,
+                                Name = e.Name,
+                                Surname = e.Surname,
+                                EmployeeId = e.EmployeeId,
+                                CategoryId = e.CategoryId,
+                                Employee = e.Employee,
+                                Category = e.Category,
+                            }).FirstOrDefaultAsync(cancellationToken);
+        if (result == null)
+        {
+            throw new NotFoundException();
+        }
+        return result;
     }
 }

@@ -12,8 +12,8 @@ using Tempo_DAL;
 namespace Tempo_DAL.Migrations
 {
     [DbContext(typeof(TempoDbContext))]
-    [Migration("20241016100543_Fix-Order")]
-    partial class FixOrder
+    [Migration("20241018105615_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

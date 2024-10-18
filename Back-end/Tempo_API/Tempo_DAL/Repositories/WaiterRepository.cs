@@ -1,35 +1,54 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Tempo_DAL.Entities;
 using Tempo_DAL.Interfaces;
+using Tempo_Shared.Exeption;
 
 namespace Tempo_DAL.Repositories;
 
 public class WaiterRepository : GenericRepository<WaiterEntity>, IWaiterRepository
 {
-    private readonly DbSet<WaiterEntity> dbSet;
     public WaiterRepository(TempoDbContext dbсontext) : base(dbсontext)
     {
-        dbSet = dbсontext.Set<WaiterEntity>();
     }
     public override Task<List<WaiterEntity>> GetAll(CancellationToken cancellationToken, out int total, out int count)
     {
-        var data = dbSet
-            .AsNoTracking()
-            .Include(e => e.Employee)
-            .Include(e => e.Tables);
+        var data = from e in dbSet
+                   select new WaiterEntity()
+                   {
+                       Id = e.Id,
+                       CreatedAt = e.CreatedAt,
+                       UpdatedAt = e.UpdatedAt,
+                       Name = e.Name,
+                       Surname = e.Surname,
+                       EmployeeId = e.EmployeeId,
+                       Employee = e.Employee,
+                       Tables = e.Tables
+                   };
 
         total = data.Count();
         count = 1;
         return data.ToListAsync(cancellationToken);
     }
 
-    public override Task<WaiterEntity?> GetById(Guid id, CancellationToken cancellationToken)
+    public override async Task<WaiterEntity> GetById(Guid id, CancellationToken cancellationToken)
     {
-        return dbSet
-            .AsNoTracking()
-            .Where(x => x.Id == id)
-            .Include(e => e.Employee)
-            .Include(e => e.Tables)
-            .FirstOrDefaultAsync(cancellationToken);
+        var result = await (from e in dbSet
+                            where e.Id == id
+                            select new WaiterEntity()
+                            {
+                                Id = e.Id,
+                                CreatedAt = e.CreatedAt,
+                                UpdatedAt = e.UpdatedAt,
+                                Name = e.Name,
+                                Surname = e.Surname,
+                                EmployeeId = e.EmployeeId,
+                                Employee = e.Employee,
+                                Tables = e.Tables
+                            }).FirstOrDefaultAsync(cancellationToken);
+        if (result == null)
+        {
+            throw new NotFoundException();
+        }
+        return result;
     }
 }

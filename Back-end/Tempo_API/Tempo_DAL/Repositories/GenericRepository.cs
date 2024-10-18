@@ -2,13 +2,14 @@
 using System.Linq.Expressions;
 using Tempo_DAL.Entities;
 using Tempo_DAL.Interfaces;
+using Tempo_Shared.Exeption;
 
 namespace Tempo_DAL.Repositories;
 
 public class GenericRepository<Entity> : IGenericRepository<Entity> where Entity : BaseEntity
 {
-    private readonly TempoDbContext dbContext;
-    private readonly DbSet<Entity> dbSet;
+    protected readonly TempoDbContext dbContext;
+    protected readonly DbSet<Entity> dbSet;
 
     public GenericRepository(TempoDbContext dbContext)
     {
@@ -18,6 +19,7 @@ public class GenericRepository<Entity> : IGenericRepository<Entity> where Entity
 
     public async Task<Entity> Create(Entity entity, CancellationToken cancellationToken)
     {
+        entity.Id = Guid.NewGuid();
         var result = await dbSet.AddAsync(entity);
         await dbContext.SaveChangesAsync(cancellationToken);
         return result.Entity;
@@ -25,13 +27,21 @@ public class GenericRepository<Entity> : IGenericRepository<Entity> where Entity
 
     public Task Delete(Entity entity, CancellationToken cancellationToken)
     {
-        dbContext.Remove(entity);
+        var result = dbContext.Remove(entity);
+        if (result == null)
+        {
+            throw new NotFoundException();
+        }
         return dbContext.SaveChangesAsync(cancellationToken);
     }
 
     public async Task<Entity> Update(Entity entity, CancellationToken cancellationToken)
     {
         var result = dbSet.Update(entity);
+        if (result == null)
+        {
+            throw new NotFoundException();
+        }
         await dbContext.SaveChangesAsync(cancellationToken);
         return result.Entity;
     }
@@ -44,14 +54,24 @@ public class GenericRepository<Entity> : IGenericRepository<Entity> where Entity
         return data.ToListAsync(cancellationToken);
     }
 
-    public virtual Task<Entity?> GetById(Guid id, CancellationToken cancellationToken)
+    public virtual async Task<Entity> GetById(Guid id, CancellationToken cancellationToken)
     {
-        return dbSet.AsNoTracking().Where(x => x.Id == id).FirstOrDefaultAsync(cancellationToken);
+        var result = await dbSet.AsNoTracking().Where(x => x.Id == id).FirstOrDefaultAsync(cancellationToken);
+        if (result == null)
+        {
+            throw new NotFoundException();
+        }
+        return result;
     }
 
-    public Task<List<Entity>> GetByPredicate(Expression<Func<Entity, bool>> predicate, CancellationToken cancellationToken)
+    public async Task<List<Entity>> GetByPredicate(Expression<Func<Entity, bool>> predicate, CancellationToken cancellationToken)
     {
-        return dbSet.AsNoTracking().Where(predicate).ToListAsync(cancellationToken);
+        var result = await dbSet.AsNoTracking().Where(predicate).ToListAsync(cancellationToken);
+        if (result == null)
+        {
+            throw new NotFoundException();
+        }
+        return result;
     }
 
     public Task<List<Entity>> Paginate(int limit, int page, CancellationToken cancellationToken, out int total, out int count, Expression<Func<Entity, bool>>? predicate)
