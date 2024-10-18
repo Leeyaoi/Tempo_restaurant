@@ -23,7 +23,6 @@ public class BllMapperProfile : Profile
         CreateMap<TablewareDishEntity, TablewareDishModel>().ReverseMap();
         CreateMap<TablewareEntity, TablewareModel>().ReverseMap();
         CreateMap<UserEntity, UserModel>().ReverseMap();
-        CreateMap<WaiterEntity, WaiterModel>()
-            /*.ForPath(dest => dest.Employee.Waiter, opt => opt.MapFrom(src => (WaiterEntity?)null))*/.ReverseMap();
+        CreateMap<WaiterEntity, WaiterModel>().ReverseMap();
     }
 }

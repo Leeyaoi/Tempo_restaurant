@@ -42,10 +42,6 @@ public class TempoDbContext : DbContext
         optionsBuilder.EnableSensitiveDataLogging();
     }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-    }
-
     //Overrided just so you wouldn't be able to change fiellds CreatedAt and UpdatedAt as you wish
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken)
     {
