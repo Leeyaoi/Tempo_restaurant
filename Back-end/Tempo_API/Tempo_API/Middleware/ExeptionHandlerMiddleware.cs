@@ -1,4 +1,4 @@
-﻿using Tempo_API.Exeption;
+﻿using Tempo_Shared.Exeption;
 
 namespace Tempo_API.Middleware;
 

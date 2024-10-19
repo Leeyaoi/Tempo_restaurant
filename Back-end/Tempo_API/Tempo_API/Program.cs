@@ -1,11 +1,11 @@
-using Tempo_API.Mapper;
 using dotenv.net;
-using Tempo_BLL.Mapper;
+using Tempo_API.DI;
+using Tempo_API.Mapper;
+using Tempo_API.Middleware;
 using Tempo_BLL.DI;
+using Tempo_BLL.Mapper;
 using Tempo_DAL.DI;
 using Tempo_Shared.DI;
-using Tempo_API.DI;
-using Tempo_API.Middleware;
 
 namespace Tempo_API;
 
@@ -15,9 +15,20 @@ static class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        DotEnv.Load(options: new DotEnvOptions(envFilePaths: new[] {@".env"}));
+        DotEnv.Load(options: new DotEnvOptions(envFilePaths: new[] { @".env" }));
 
         builder.Configuration.AddEnvironmentVariables();
+
+        builder.Services.AddCors(options =>
+        {
+            options.AddDefaultPolicy(policy =>
+            {
+                policy.WithOrigins(builder.Configuration.GetValue<string>("USER_FRONT")!)
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .SetPreflightMaxAge(TimeSpan.FromSeconds(86400));
+            });
+        });
 
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
@@ -41,6 +52,11 @@ static class Program
         }
 
         app.UseHttpsRedirection();
+
+        app.UseCors(builder => builder
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
 
         app.UseAuthorization();
 

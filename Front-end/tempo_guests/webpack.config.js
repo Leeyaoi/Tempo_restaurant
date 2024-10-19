@@ -1,8 +1,9 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const fs = require("fs");
-const { server } = require("typescript");
-const { type } = require("os");
+const webpack = require("webpack");
+const dotenv = require("dotenv").config({ path: __dirname + "/.env" });
+const isDevelopment = process.env.NODE_ENV !== "production";
 
 module.exports = {
   entry: "./src/index.tsx",
@@ -26,7 +27,14 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "./src/index.html",
     }),
-  ],
+    new webpack.DefinePlugin({
+      "process.env": JSON.stringify(dotenv.parsed),
+      "process.env.NODE_ENV": JSON.stringify(
+        isDevelopment ? "development" : "production"
+      ),
+    }),
+  ].filter(Boolean),
+
   mode: "development",
   devServer: {
     server: {
