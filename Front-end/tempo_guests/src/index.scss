@@ -1,0 +1,26 @@
+html, body{
+    margin: 0;
+    height: 100%;
+    color: #fff;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+}
+
+.Container{
+    background-color: #e6e1a4;
+    height: 100%;
+    text-align: center;
+    position: relative;
+}
+
+#root{
+    height: 100%;
+}
+
+.text-input{
+    background-color: #fff;
+    border-radius: 0.3rem;
+}
+
+#button{
+    background-color: #ef7f1a;
+}

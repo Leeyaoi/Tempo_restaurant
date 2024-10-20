@@ -12,7 +12,7 @@ module.exports = {
     path: path.resolve(__dirname, "dist"),
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js"],
+    extensions: [".tsx", ".ts", ".js", ".css", ".scss"],
   },
   module: {
     rules: [
@@ -20,6 +20,20 @@ module.exports = {
         test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
         use: "babel-loader",
+      },
+      {
+        test: /\.s[ac]ss$/i,
+        use: [
+          "style-loader",
+          "css-loader",
+          {
+            loader: "sass-loader",
+            options: {
+              // Prefer `dart-sass`, even if `sass-embedded` is available
+              implementation: require("sass"),
+            },
+          },
+        ],
       },
     ],
   },
@@ -37,6 +51,11 @@ module.exports = {
 
   mode: "development",
   devServer: {
+    historyApiFallback: true,
+    static: {
+      directory: path.join(__dirname, "/"),
+    },
+    port: 8081,
     server: {
       type: "https",
       options: {
