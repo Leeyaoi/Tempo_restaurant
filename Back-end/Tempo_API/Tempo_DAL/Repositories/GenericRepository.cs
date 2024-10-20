@@ -67,10 +67,6 @@ public class GenericRepository<Entity> : IGenericRepository<Entity> where Entity
     public async Task<List<Entity>> GetByPredicate(Expression<Func<Entity, bool>> predicate, CancellationToken cancellationToken)
     {
         var result = await dbSet.AsNoTracking().Where(predicate).ToListAsync(cancellationToken);
-        if (result == null)
-        {
-            throw new NotFoundException();
-        }
         return result;
     }
 

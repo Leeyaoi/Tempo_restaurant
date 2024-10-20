@@ -9,9 +9,9 @@ namespace Tempo_BLL.Services;
 
 public class GenericService<Model, Entity> : IGenericService<Model> where Model : BaseModel where Entity : BaseEntity
 {
-    private readonly IMapper _mapper;
+    protected readonly IMapper _mapper;
 
-    private readonly IGenericRepository<Entity> _repository;
+    protected readonly IGenericRepository<Entity> _repository;
 
     public GenericService(IMapper mapper, IGenericRepository<Entity> repository)
     {
@@ -19,7 +19,7 @@ public class GenericService<Model, Entity> : IGenericService<Model> where Model 
         _repository = repository;
     }
 
-    public async Task<Model> Create(Model model, CancellationToken cancellationToken)
+    public virtual async Task<Model> Create(Model model, CancellationToken cancellationToken)
     {
         var entity = _mapper.Map<Entity>(model);
         var result = await _repository.Create(entity, cancellationToken);
@@ -44,7 +44,7 @@ public class GenericService<Model, Entity> : IGenericService<Model> where Model 
     {
         List<Entity> entities;
         int total, count;
-        if(page != null && limit != null)
+        if (page != null && limit != null)
         {
             entities = await _repository.Paginate((int)limit, (int)page, cancellationToken, out total, out count, null);
         }
