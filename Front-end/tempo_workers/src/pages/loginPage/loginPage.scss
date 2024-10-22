@@ -1,0 +1,17 @@
+#content{
+    display: flex;
+}
+
+#login-form{
+    height: fit-content;
+    margin: 15rem auto;
+    padding: 0.5rem;
+    align-self: center;
+    width: 90%;
+}
+
+#login-form > *{
+    display: flex;
+    margin: auto;
+    margin-bottom: 0.5rem;
+}
