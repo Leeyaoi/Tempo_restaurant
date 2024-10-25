@@ -13,16 +13,9 @@ public class TablewareRepository : GenericRepository<TablewareEntity>, ITablewar
 
     public override Task<List<TablewareEntity>> GetAll(CancellationToken cancellationToken, out int total, out int count)
     {
-        var data = from e in dbSet
-                   select new TablewareEntity()
-                   {
-                       Id = e.Id,
-                       CreatedAt = e.CreatedAt,
-                       UpdatedAt = e.UpdatedAt,
-                       Type = e.Type,
-                       In_stock = e.In_stock,
-                       Dishes = e.Dishes,
-                   };
+        var data = dbSet
+            .AsNoTracking()
+            .Include(e => e.Dishes);
 
         total = data.Count();
         count = 1;
@@ -31,17 +24,12 @@ public class TablewareRepository : GenericRepository<TablewareEntity>, ITablewar
 
     public override async Task<TablewareEntity> GetById(Guid id, CancellationToken cancellationToken)
     {
-        var result = await (from e in dbSet
-                            where e.Id == id
-                            select new TablewareEntity()
-                            {
-                                Id = e.Id,
-                                CreatedAt = e.CreatedAt,
-                                UpdatedAt = e.UpdatedAt,
-                                Type = e.Type,
-                                In_stock = e.In_stock,
-                                Dishes = e.Dishes,
-                            }).FirstOrDefaultAsync(cancellationToken);
+        var result = await dbSet
+            .AsNoTracking()
+            .Where(x => x.Id == id)
+            .Include(e => e.Dishes)
+            .FirstOrDefaultAsync(cancellationToken);
+
         if (result == null)
         {
             throw new NotFoundException();

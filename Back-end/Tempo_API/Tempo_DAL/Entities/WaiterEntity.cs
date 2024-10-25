@@ -7,5 +7,5 @@ public class WaiterEntity : BaseEntity
     public Guid EmployeeId { get; set; }
 
     public EmployeeEntity? Employee { get; set; }
-    public List<TableEntity?> Tables { get; set; } = new();
+    public List<TableEntity> Tables { get; set; } = new();
 }

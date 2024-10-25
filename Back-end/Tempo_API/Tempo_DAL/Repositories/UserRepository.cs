@@ -13,16 +13,9 @@ public class UserRepository : GenericRepository<UserEntity>, IUserRepository
 
     public override Task<List<UserEntity>> GetAll(CancellationToken cancellationToken, out int total, out int count)
     {
-        var data = from e in dbSet
-                   select new UserEntity()
-                   {
-                       Id = e.Id,
-                       CreatedAt = e.CreatedAt,
-                       UpdatedAt = e.UpdatedAt,
-                       Name = e.Name,
-                       Phone = e.Phone,
-                       Orders = e.Orders,
-                   };
+        var data = dbSet
+            .AsNoTracking()
+            .Include(e => e.Orders);
 
         total = data.Count();
         count = 1;
@@ -31,17 +24,12 @@ public class UserRepository : GenericRepository<UserEntity>, IUserRepository
 
     public override async Task<UserEntity> GetById(Guid id, CancellationToken cancellationToken)
     {
-        var result = await (from e in dbSet
-                            where e.Id == id
-                            select new UserEntity()
-                            {
-                                Id = e.Id,
-                                CreatedAt = e.CreatedAt,
-                                UpdatedAt = e.UpdatedAt,
-                                Name = e.Name,
-                                Phone = e.Phone,
-                                Orders = e.Orders,
-                            }).FirstOrDefaultAsync(cancellationToken);
+        var result = await dbSet
+            .AsNoTracking()
+            .Where(x => x.Id == id)
+            .Include(e => e.Orders)
+            .FirstOrDefaultAsync(cancellationToken);
+
         if (result == null)
         {
             throw new NotFoundException();

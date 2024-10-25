@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Tempo_DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class FixRelations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -68,6 +68,21 @@ namespace Tempo_DAL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Ingredient", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tableware",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Type = table.Column<string>(type: "text", nullable: false),
+                    In_stock = table.Column<double>(type: "double precision", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tableware", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -313,27 +328,6 @@ namespace Tempo_DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Tableware",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Type = table.Column<string>(type: "text", nullable: false),
-                    In_stock = table.Column<double>(type: "double precision", nullable: false),
-                    DishEntityId = table.Column<Guid>(type: "uuid", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tableware", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Tableware_Dish_DishEntityId",
-                        column: x => x.DishEntityId,
-                        principalTable: "Dish",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "TablewareDish",
                 columns: table => new
                 {
@@ -427,11 +421,6 @@ namespace Tempo_DAL.Migrations
                 column: "WaiterId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tableware_DishEntityId",
-                table: "Tableware",
-                column: "DishEntityId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_TablewareDish_DishId",
                 table: "TablewareDish",
                 column: "DishId");
@@ -476,10 +465,10 @@ namespace Tempo_DAL.Migrations
                 name: "Ingredient");
 
             migrationBuilder.DropTable(
-                name: "Tableware");
+                name: "Dish");
 
             migrationBuilder.DropTable(
-                name: "Dish");
+                name: "Tableware");
 
             migrationBuilder.DropTable(
                 name: "Category");

@@ -13,17 +13,10 @@ public class DishwareDishRepository : GenericRepository<DishwareDishEntity>, IDi
 
     public override Task<List<DishwareDishEntity>> GetAll(CancellationToken cancellationToken, out int total, out int count)
     {
-        var data = from e in dbSet
-                   select new DishwareDishEntity()
-                   {
-                       Id = e.Id,
-                       CreatedAt = e.CreatedAt,
-                       UpdatedAt = e.UpdatedAt,
-                       DishId = e.DishId,
-                       DishwareId = e.DishwareId,
-                       Dish = e.Dish,
-                       Dishware = e.Dishware,
-                   };
+        var data = dbSet
+            .AsNoTracking()
+            .Include(e => e.Dish)
+            .Include(e => e.Dishware);
 
         total = data.Count();
         count = 1;
@@ -32,18 +25,13 @@ public class DishwareDishRepository : GenericRepository<DishwareDishEntity>, IDi
 
     public override async Task<DishwareDishEntity> GetById(Guid id, CancellationToken cancellationToken)
     {
-        var result = await (from e in dbSet
-                            where e.Id == id
-                            select new DishwareDishEntity()
-                            {
-                                Id = e.Id,
-                                CreatedAt = e.CreatedAt,
-                                UpdatedAt = e.UpdatedAt,
-                                DishId = e.DishId,
-                                DishwareId = e.DishwareId,
-                                Dish = e.Dish,
-                                Dishware = e.Dishware,
-                            }).FirstOrDefaultAsync(cancellationToken);
+        var result = await dbSet
+            .AsNoTracking()
+            .Where(x => x.Id == id)
+            .Include(e => e.Dish)
+            .Include(e => e.Dishware)
+            .FirstOrDefaultAsync(cancellationToken);
+
         if (result == null)
         {
             throw new NotFoundException();

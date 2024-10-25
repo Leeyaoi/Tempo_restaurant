@@ -12,16 +12,9 @@ public class DrinkRepository : GenericRepository<DrinkEntity>, IDrinkRepository
     }
     public override Task<List<DrinkEntity>> GetAll(CancellationToken cancellationToken, out int total, out int count)
     {
-        var data = from e in dbSet
-                   select new DrinkEntity()
-                   {
-                       Id = e.Id,
-                       CreatedAt = e.CreatedAt,
-                       UpdatedAt = e.UpdatedAt,
-                       Name = e.Name,
-                       CategoryId = e.CategoryId,
-                       Category = e.Category,
-                   };
+        var data = dbSet
+            .AsNoTracking()
+            .Include(e => e.Category);
 
         total = data.Count();
         count = 1;
@@ -30,17 +23,12 @@ public class DrinkRepository : GenericRepository<DrinkEntity>, IDrinkRepository
 
     public override async Task<DrinkEntity> GetById(Guid id, CancellationToken cancellationToken)
     {
-        var result = await (from e in dbSet
-                            where e.Id == id
-                            select new DrinkEntity()
-                            {
-                                Id = e.Id,
-                                CreatedAt = e.CreatedAt,
-                                UpdatedAt = e.UpdatedAt,
-                                Name = e.Name,
-                                CategoryId = e.CategoryId,
-                                Category = e.Category,
-                            }).FirstOrDefaultAsync(cancellationToken);
+        var result = await dbSet
+            .AsNoTracking()
+            .Where(x => x.Id == id)
+            .Include(e => e.Category)
+            .FirstOrDefaultAsync(cancellationToken);
+
         if (result == null)
         {
             throw new NotFoundException();
