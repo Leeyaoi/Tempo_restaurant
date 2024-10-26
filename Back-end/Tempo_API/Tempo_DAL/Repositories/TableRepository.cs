@@ -13,17 +13,10 @@ public class TableRepository : GenericRepository<TableEntity>, ITableRepository
 
     public override Task<List<TableEntity>> GetAll(CancellationToken cancellationToken, out int total, out int count)
     {
-        var data = from e in dbSet
-                   select new TableEntity()
-                   {
-                       Id = e.Id,
-                       CreatedAt = e.CreatedAt,
-                       UpdatedAt = e.UpdatedAt,
-                       Max_people = e.Max_people,
-                       WaiterId = e.WaiterId,
-                       OrderList = e.OrderList,
-                       Waiter = e.Waiter,
-                   };
+        var data = dbSet
+            .AsNoTracking()
+            .Include(e => e.Waiter)
+            .Include(e => e.OrderList);
 
         total = data.Count();
         count = 1;
@@ -32,18 +25,13 @@ public class TableRepository : GenericRepository<TableEntity>, ITableRepository
 
     public override async Task<TableEntity> GetById(Guid id, CancellationToken cancellationToken)
     {
-        var result = await (from e in dbSet
-                            where e.Id == id
-                            select new TableEntity()
-                            {
-                                Id = e.Id,
-                                CreatedAt = e.CreatedAt,
-                                UpdatedAt = e.UpdatedAt,
-                                Max_people = e.Max_people,
-                                WaiterId = e.WaiterId,
-                                OrderList = e.OrderList,
-                                Waiter = e.Waiter,
-                            }).FirstOrDefaultAsync(cancellationToken);
+        var result = await dbSet
+            .AsNoTracking()
+            .Where(x => x.Id == id)
+            .Include(e => e.Waiter)
+            .Include(e => e.OrderList)
+            .FirstOrDefaultAsync(cancellationToken);
+
         if (result == null)
         {
             throw new NotFoundException();

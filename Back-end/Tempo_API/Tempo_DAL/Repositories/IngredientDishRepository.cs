@@ -13,18 +13,10 @@ public class IngredientDishRepository : GenericRepository<IngredientDishEntity>,
 
     public override Task<List<IngredientDishEntity>> GetAll(CancellationToken cancellationToken, out int total, out int count)
     {
-        var data = from e in dbSet
-                   select new IngredientDishEntity()
-                   {
-                       Id = e.Id,
-                       CreatedAt = e.CreatedAt,
-                       UpdatedAt = e.UpdatedAt,
-                       Needed = e.Needed,
-                       DishId = e.DishId,
-                       IngredientId = e.IngredientId,
-                       Dish = e.Dish,
-                       Ingredient = e.Ingredient,
-                   };
+        var data = dbSet
+            .AsNoTracking()
+            .Include(e => e.Dish)
+            .Include(e => e.Ingredient);
 
         total = data.Count();
         count = 1;
@@ -33,19 +25,13 @@ public class IngredientDishRepository : GenericRepository<IngredientDishEntity>,
 
     public override async Task<IngredientDishEntity> GetById(Guid id, CancellationToken cancellationToken)
     {
-        var result = await (from e in dbSet
-                            where e.Id == id
-                            select new IngredientDishEntity()
-                            {
-                                Id = e.Id,
-                                CreatedAt = e.CreatedAt,
-                                UpdatedAt = e.UpdatedAt,
-                                Needed = e.Needed,
-                                DishId = e.DishId,
-                                IngredientId = e.IngredientId,
-                                Dish = e.Dish,
-                                Ingredient = e.Ingredient,
-                            }).FirstOrDefaultAsync(cancellationToken);
+        var result = await dbSet
+            .AsNoTracking()
+            .Where(x => x.Id == id)
+            .Include(e => e.Dish)
+            .Include(e => e.Ingredient)
+            .FirstOrDefaultAsync(cancellationToken);
+
         if (result == null)
         {
             throw new NotFoundException();

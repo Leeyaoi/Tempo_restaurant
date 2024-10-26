@@ -13,17 +13,11 @@ public class CategoryRepository : GenericRepository<CategoryEntity>, ICategoryRe
 
     public override Task<List<CategoryEntity>> GetAll(CancellationToken cancellationToken, out int total, out int count)
     {
-        var data = from e in dbSet
-                   select new CategoryEntity()
-                   {
-                       Id = e.Id,
-                       CreatedAt = e.CreatedAt,
-                       UpdatedAt = e.UpdatedAt,
-                       Name = e.Name,
-                       Cooks = e.Cooks,
-                       Drinks = e.Drinks,
-                       Dishes = e.Dishes,
-                   };
+        var data = dbSet
+            .AsNoTracking()
+            .Include(e => e.Cooks)
+            .Include(e => e.Drinks)
+            .Include(e => e.Dishes);
 
         total = data.Count();
         count = 1;
@@ -32,18 +26,14 @@ public class CategoryRepository : GenericRepository<CategoryEntity>, ICategoryRe
 
     public override async Task<CategoryEntity> GetById(Guid id, CancellationToken cancellationToken)
     {
-        var result = await (from e in dbSet
-                            where e.Id == id
-                            select new CategoryEntity()
-                            {
-                                Id = e.Id,
-                                CreatedAt = e.CreatedAt,
-                                UpdatedAt = e.UpdatedAt,
-                                Name = e.Name,
-                                Cooks = e.Cooks,
-                                Drinks = e.Drinks,
-                                Dishes = e.Dishes,
-                            }).FirstOrDefaultAsync(cancellationToken);
+        var result = await dbSet
+            .AsNoTracking()
+            .Where(x => x.Id == id)
+            .Include(e => e.Cooks)
+            .Include(e => e.Drinks)
+            .Include(e => e.Dishes)
+            .FirstOrDefaultAsync(cancellationToken);
+
         if (result == null)
         {
             throw new NotFoundException();

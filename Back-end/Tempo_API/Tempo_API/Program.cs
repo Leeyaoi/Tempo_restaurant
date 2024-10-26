@@ -1,4 +1,5 @@
 using dotenv.net;
+using Newtonsoft.Json;
 using Tempo_API.DI;
 using Tempo_API.Mapper;
 using Tempo_API.Middleware;
@@ -30,7 +31,12 @@ static class Program
             });
         });
 
-        builder.Services.AddControllers();
+        builder.Services.AddControllers().AddNewtonsoftJson(
+          options =>
+          {
+              options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+          });
+
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 

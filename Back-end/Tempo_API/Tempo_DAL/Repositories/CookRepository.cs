@@ -13,19 +13,10 @@ public class CookRepository : GenericRepository<CookEntity>, ICookRepository
 
     public override Task<List<CookEntity>> GetAll(CancellationToken cancellationToken, out int total, out int count)
     {
-        var data = from e in dbSet
-                   select new CookEntity()
-                   {
-                       Id = e.Id,
-                       CreatedAt = e.CreatedAt,
-                       UpdatedAt = e.UpdatedAt,
-                       Name = e.Name,
-                       Surname = e.Surname,
-                       EmployeeId = e.EmployeeId,
-                       CategoryId = e.CategoryId,
-                       Employee = e.Employee,
-                       Category = e.Category,
-                   };
+        var data = dbSet
+            .AsNoTracking()
+            .Include(e => e.Employee)
+            .Include(e => e.Category);
 
         total = data.Count();
         count = 1;
@@ -34,20 +25,13 @@ public class CookRepository : GenericRepository<CookEntity>, ICookRepository
 
     public override async Task<CookEntity> GetById(Guid id, CancellationToken cancellationToken)
     {
-        var result = await (from e in dbSet
-                            where e.Id == id
-                            select new CookEntity()
-                            {
-                                Id = e.Id,
-                                CreatedAt = e.CreatedAt,
-                                UpdatedAt = e.UpdatedAt,
-                                Name = e.Name,
-                                Surname = e.Surname,
-                                EmployeeId = e.EmployeeId,
-                                CategoryId = e.CategoryId,
-                                Employee = e.Employee,
-                                Category = e.Category,
-                            }).FirstOrDefaultAsync(cancellationToken);
+        var result = await dbSet
+            .AsNoTracking()
+            .Where(x => x.Id == id)
+            .Include(e => e.Employee)
+            .Include(e => e.Category)
+            .FirstOrDefaultAsync(cancellationToken);
+
         if (result == null)
         {
             throw new NotFoundException();

@@ -13,16 +13,9 @@ public class IngredientRepository : GenericRepository<IngredientEntity>, IIngred
 
     public override Task<List<IngredientEntity>> GetAll(CancellationToken cancellationToken, out int total, out int count)
     {
-        var data = from e in dbSet
-                   select new IngredientEntity()
-                   {
-                       Id = e.Id,
-                       CreatedAt = e.CreatedAt,
-                       UpdatedAt = e.UpdatedAt,
-                       Name = e.Name,
-                       In_stock = e.In_stock,
-                       IngredientDish = e.IngredientDish,
-                   };
+        var data = dbSet
+            .AsNoTracking()
+            .Include(e => e.Dishes);
 
         total = data.Count();
         count = 1;
@@ -31,17 +24,12 @@ public class IngredientRepository : GenericRepository<IngredientEntity>, IIngred
 
     public override async Task<IngredientEntity> GetById(Guid id, CancellationToken cancellationToken)
     {
-        var result = await (from e in dbSet
-                            where e.Id == id
-                            select new IngredientEntity()
-                            {
-                                Id = e.Id,
-                                CreatedAt = e.CreatedAt,
-                                UpdatedAt = e.UpdatedAt,
-                                Name = e.Name,
-                                In_stock = e.In_stock,
-                                IngredientDish = e.IngredientDish,
-                            }).FirstOrDefaultAsync(cancellationToken);
+        var result = await dbSet
+            .AsNoTracking()
+            .Where(x => x.Id == id)
+            .Include(e => e.Dishes)
+            .FirstOrDefaultAsync(cancellationToken);
+
         if (result == null)
         {
             throw new NotFoundException();

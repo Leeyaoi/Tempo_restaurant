@@ -13,16 +13,9 @@ public class BillRepository : GenericRepository<BillEntity>, IBillRepository
 
     public override Task<List<BillEntity>> GetAll(CancellationToken cancellationToken, out int total, out int count)
     {
-        var data = from e in dbSet
-                   select new BillEntity()
-                   {
-                       Id = e.Id,
-                       CreatedAt = e.CreatedAt,
-                       UpdatedAt = e.UpdatedAt,
-                       Cash = e.Cash,
-                       OrderId = e.OrderId,
-                       Order = e.Order,
-                   };
+        var data = dbSet
+            .AsNoTracking()
+            .Include(e => e.Order);
 
         total = data.Count();
         count = 1;
@@ -31,17 +24,12 @@ public class BillRepository : GenericRepository<BillEntity>, IBillRepository
 
     public override async Task<BillEntity> GetById(Guid id, CancellationToken cancellationToken)
     {
-        var result = await (from e in dbSet
-                            where e.Id == id
-                            select new BillEntity()
-                            {
-                                Id = e.Id,
-                                CreatedAt = e.CreatedAt,
-                                UpdatedAt = e.UpdatedAt,
-                                Cash = e.Cash,
-                                OrderId = e.OrderId,
-                                Order = e.Order,
-                            }).FirstOrDefaultAsync(cancellationToken);
+        var result = await dbSet
+            .AsNoTracking()
+            .Where(x => x.Id == id)
+            .Include(e => e.Order)
+            .FirstOrDefaultAsync(cancellationToken);
+
         if (result == null)
         {
             throw new NotFoundException();

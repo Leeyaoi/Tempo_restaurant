@@ -13,20 +13,11 @@ public class OrderRepository : GenericRepository<OrderEntity>, IOrderRepository
 
     public override Task<List<OrderEntity>> GetAll(CancellationToken cancellationToken, out int total, out int count)
     {
-        var data = from e in dbSet
-                   select new OrderEntity()
-                   {
-                       Id = e.Id,
-                       CreatedAt = e.CreatedAt,
-                       UpdatedAt = e.UpdatedAt,
-                       People_num = e.People_num,
-                       Status = e.Status,
-                       TableId = e.TableId,
-                       UserId = e.UserId,
-                       Table = e.Table,
-                       User = e.User,
-                       Dishes = e.Dishes,
-                   };
+        var data = dbSet
+            .AsNoTracking()
+            .Include(e => e.Table)
+            .Include(e => e.Dishes)
+            .Include(e => e.User);
 
         total = data.Count();
         count = 1;
@@ -35,21 +26,14 @@ public class OrderRepository : GenericRepository<OrderEntity>, IOrderRepository
 
     public override async Task<OrderEntity> GetById(Guid id, CancellationToken cancellationToken)
     {
-        var result = await (from e in dbSet
-                            where e.Id == id
-                            select new OrderEntity()
-                            {
-                                Id = e.Id,
-                                CreatedAt = e.CreatedAt,
-                                UpdatedAt = e.UpdatedAt,
-                                People_num = e.People_num,
-                                Status = e.Status,
-                                TableId = e.TableId,
-                                UserId = e.UserId,
-                                Table = e.Table,
-                                User = e.User,
-                                Dishes = e.Dishes,
-                            }).FirstOrDefaultAsync(cancellationToken);
+        var result = await dbSet
+            .AsNoTracking()
+            .Where(x => x.Id == id)
+            .Include(e => e.Table)
+            .Include(e => e.Dishes)
+            .Include(e => e.User)
+            .FirstOrDefaultAsync(cancellationToken);
+
         if (result == null)
         {
             throw new NotFoundException();

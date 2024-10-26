@@ -10,20 +10,13 @@ public class WaiterRepository : GenericRepository<WaiterEntity>, IWaiterReposito
     public WaiterRepository(TempoDbContext dbсontext) : base(dbсontext)
     {
     }
+
     public override Task<List<WaiterEntity>> GetAll(CancellationToken cancellationToken, out int total, out int count)
     {
-        var data = from e in dbSet
-                   select new WaiterEntity()
-                   {
-                       Id = e.Id,
-                       CreatedAt = e.CreatedAt,
-                       UpdatedAt = e.UpdatedAt,
-                       Name = e.Name,
-                       Surname = e.Surname,
-                       EmployeeId = e.EmployeeId,
-                       Employee = e.Employee,
-                       Tables = e.Tables
-                   };
+        var data = dbSet
+            .AsNoTracking()
+            .Include(e => e.Employee)
+            .Include(e => e.Tables);
 
         total = data.Count();
         count = 1;
@@ -32,19 +25,13 @@ public class WaiterRepository : GenericRepository<WaiterEntity>, IWaiterReposito
 
     public override async Task<WaiterEntity> GetById(Guid id, CancellationToken cancellationToken)
     {
-        var result = await (from e in dbSet
-                            where e.Id == id
-                            select new WaiterEntity()
-                            {
-                                Id = e.Id,
-                                CreatedAt = e.CreatedAt,
-                                UpdatedAt = e.UpdatedAt,
-                                Name = e.Name,
-                                Surname = e.Surname,
-                                EmployeeId = e.EmployeeId,
-                                Employee = e.Employee,
-                                Tables = e.Tables
-                            }).FirstOrDefaultAsync(cancellationToken);
+        var result = await dbSet
+            .AsNoTracking()
+            .Where(x => x.Id == id)
+            .Include(e => e.Employee)
+            .Include(e => e.Tables)
+            .FirstOrDefaultAsync(cancellationToken);
+
         if (result == null)
         {
             throw new NotFoundException();
