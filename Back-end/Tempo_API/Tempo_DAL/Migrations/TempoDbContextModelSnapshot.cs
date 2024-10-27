@@ -155,8 +155,8 @@ namespace Tempo_DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("Approx_time")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<int>("Approx_time")
+                        .HasColumnType("integer");
 
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("uuid");
@@ -252,6 +252,9 @@ namespace Tempo_DAL.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");

@@ -12,8 +12,8 @@ using Tempo_DAL;
 namespace Tempo_DAL.Migrations
 {
     [DbContext(typeof(TempoDbContext))]
-    [Migration("20241025070242_FixRelations")]
-    partial class FixRelations
+    [Migration("20241027171325_DrinkPrice")]
+    partial class DrinkPrice
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,51 @@ namespace Tempo_DAL.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("DishEntityDishwareEntity", b =>
+                {
+                    b.Property<Guid>("DishesId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("DishwareListId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("DishesId", "DishwareListId");
+
+                    b.HasIndex("DishwareListId");
+
+                    b.ToTable("DishEntityDishwareEntity");
+                });
+
+            modelBuilder.Entity("DishEntityIngredientEntity", b =>
+                {
+                    b.Property<Guid>("DishesId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("IngredientsId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("DishesId", "IngredientsId");
+
+                    b.HasIndex("IngredientsId");
+
+                    b.ToTable("DishEntityIngredientEntity");
+                });
+
+            modelBuilder.Entity("DishEntityTablewareEntity", b =>
+                {
+                    b.Property<Guid>("DishesId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("TablewareListId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("DishesId", "TablewareListId");
+
+                    b.HasIndex("TablewareListId");
+
+                    b.ToTable("DishEntityTablewareEntity");
+                });
 
             modelBuilder.Entity("Tempo_DAL.Entities.BillEntity", b =>
                 {
@@ -113,8 +158,8 @@ namespace Tempo_DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("Approx_time")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<int>("Approx_time")
+                        .HasColumnType("integer");
 
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("uuid");
@@ -168,7 +213,7 @@ namespace Tempo_DAL.Migrations
 
                     b.HasIndex("DishwareId");
 
-                    b.ToTable("DishwareDish", (string)null);
+                    b.ToTable("DishwareDish");
                 });
 
             modelBuilder.Entity("Tempo_DAL.Entities.DishwareEntity", b =>
@@ -210,6 +255,9 @@ namespace Tempo_DAL.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -273,7 +321,7 @@ namespace Tempo_DAL.Migrations
 
                     b.HasIndex("IngredientId");
 
-                    b.ToTable("IngredientDish", (string)null);
+                    b.ToTable("IngredientDish");
                 });
 
             modelBuilder.Entity("Tempo_DAL.Entities.IngredientEntity", b =>
@@ -382,7 +430,7 @@ namespace Tempo_DAL.Migrations
 
                     b.HasIndex("TablewareId");
 
-                    b.ToTable("TablewareDish", (string)null);
+                    b.ToTable("TablewareDish");
                 });
 
             modelBuilder.Entity("Tempo_DAL.Entities.TablewareEntity", b =>
@@ -463,6 +511,51 @@ namespace Tempo_DAL.Migrations
                         .IsUnique();
 
                     b.ToTable("Waiter");
+                });
+
+            modelBuilder.Entity("DishEntityDishwareEntity", b =>
+                {
+                    b.HasOne("Tempo_DAL.Entities.DishEntity", null)
+                        .WithMany()
+                        .HasForeignKey("DishesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Tempo_DAL.Entities.DishwareEntity", null)
+                        .WithMany()
+                        .HasForeignKey("DishwareListId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DishEntityIngredientEntity", b =>
+                {
+                    b.HasOne("Tempo_DAL.Entities.DishEntity", null)
+                        .WithMany()
+                        .HasForeignKey("DishesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Tempo_DAL.Entities.IngredientEntity", null)
+                        .WithMany()
+                        .HasForeignKey("IngredientsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DishEntityTablewareEntity", b =>
+                {
+                    b.HasOne("Tempo_DAL.Entities.DishEntity", null)
+                        .WithMany()
+                        .HasForeignKey("DishesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Tempo_DAL.Entities.TablewareEntity", null)
+                        .WithMany()
+                        .HasForeignKey("TablewareListId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Tempo_DAL.Entities.BillEntity", b =>

@@ -12,8 +12,8 @@ using Tempo_DAL;
 namespace Tempo_DAL.Migrations
 {
     [DbContext(typeof(TempoDbContext))]
-    [Migration("20241025072032_Final")]
-    partial class Final
+    [Migration("20241027164431_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -158,8 +158,8 @@ namespace Tempo_DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("Approx_time")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<int>("Approx_time")
+                        .HasColumnType("integer");
 
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("uuid");

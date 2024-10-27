@@ -7,6 +7,7 @@ public class DrinkDto : IBaseDto
 {
     public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;
+    public Decimal Price { get; set; }
     public Guid CategoryId { get; set; }
 
     public CategoryDto? Category { get; set; }
