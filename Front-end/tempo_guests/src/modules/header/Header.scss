@@ -5,9 +5,33 @@
     position: absolute;
     right: 0;
     top: 0;
+    font-size: 1.5rem;
+    color: #e6e1a4;
 }
 
 #logo{
     font-size: 3rem;
-    color: #e6e1a4;
+}
+
+#icon{
+    font-size: 2rem;
+    height: 100%;
+}
+
+#header_profile{
+    vertical-align: middle;
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: inline-flex;
+    text-align: right;
+    height: 100%;
+
+    & > p {
+        display: inline-block;
+        vertical-align: middle;
+        line-height: 3rem;
+        height: 100%;
+        margin: 0 0.5rem;
+    }
 }

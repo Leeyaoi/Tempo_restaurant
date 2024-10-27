@@ -6,10 +6,21 @@ html, body{
 }
 
 .Container{
+    margin: 0 auto;
     background-color: #e6e1a4;
-    height: 100%;
-    text-align: center;
     position: relative;
+    min-height: 100%;
+    height: fit-content;
+    display: flex;
+    text-align: center;
+}
+
+#content{
+    color: #000;
+    display: flex;
+    align-self: center;
+    width: 100%;
+    height: 87%;
 }
 
 #root{

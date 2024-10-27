@@ -1,13 +1,23 @@
 import { Button, Container, TextField } from "@mui/material";
 import { MuiTelInput } from "mui-tel-input";
-import React from "react";
+import React, { useEffect } from "react";
 import "./loginPage.scss";
 import Header from "../../modules/header/Header";
 import Footer from "../../modules/footer/Footer";
-import { HttpRequest } from "../../api/GenericApi";
-import { RESTMethod } from "../../shared/types/RESTMethodEnum";
+import { useGlobalStore } from "../../shared/state/globalStore";
+import UserType from "../../shared/types/user";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
+  const { login, currentUser } = useGlobalStore();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (currentUser !== null) {
+      navigate("/dishes");
+    }
+  }, [currentUser]);
+
   const [phone, setPhone] = React.useState("");
   const [name, setName] = React.useState("");
 
@@ -48,11 +58,7 @@ const LoginPage = () => {
             onClick={(event) => {
               event.preventDefault();
               if (phone != "" && name != "") {
-                HttpRequest({
-                  uri: "/user",
-                  method: RESTMethod.Post,
-                  item: { name: name, phone: phone },
-                });
+                login({ name: name, phone: phone } as UserType);
               }
             }}
           >
@@ -63,11 +69,7 @@ const LoginPage = () => {
             id="button"
             onClick={(event) => {
               event.preventDefault();
-              HttpRequest({
-                uri: "/user",
-                method: RESTMethod.Post,
-                item: { name: "guest", phone: "guest" },
-              });
+              login({ name: "Гость", phone: "Гость" } as UserType);
             }}
           >
             Войти как гость
