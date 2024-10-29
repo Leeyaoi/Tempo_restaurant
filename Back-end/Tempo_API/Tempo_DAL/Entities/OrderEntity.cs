@@ -12,4 +12,5 @@ public class OrderEntity : BaseEntity
     public TableEntity? Table { get; set; }
     public UserEntity? User { get; set; }
     public List<DishEntity> Dishes { get; set; } = new();
+    public List<DrinkEntity> Drinks { get; set; } = new();
 }

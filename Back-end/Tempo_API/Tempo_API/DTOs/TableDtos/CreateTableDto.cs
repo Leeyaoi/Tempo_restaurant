@@ -6,4 +6,5 @@ public class CreateTableDto : IBaseDto
 {
     public int Max_people { get; set; }
     public Guid WaiterId { get; set; }
+    public int Number { get; set; }
 }

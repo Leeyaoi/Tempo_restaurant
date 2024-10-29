@@ -11,5 +11,6 @@ public class OrderModel : BaseModel
 
     public TableModel? Table { get; set; }
     public UserModel? User { get; set; }
-    public List<DishModel?> Dishes { get; set; } = new();
+    public List<DishModel> Dishes { get; set; } = new();
+    public List<DrinkModel> Drinks { get; set; } = new();
 }
