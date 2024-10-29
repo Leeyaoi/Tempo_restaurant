@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
-import DrinkType from "../../shared/types/drink";
-import { Button, IconButton, TextField } from "@mui/material";
-import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
+import DishType from "../../../shared/types/dish";
 import AddIcon from "@mui/icons-material/Add";
-import { useGlobalStore } from "../../shared/state/globalStore";
+import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
+import { Button, IconButton, TextField } from "@mui/material";
+import { useGlobalStore } from "../../../shared/state/globalStore";
 
 interface Props {
-  drink?: DrinkType;
+  dish?: DishType;
 }
 
-const DrinkComponent = ({ drink }: Props) => {
-  if (drink == null) {
+const DishComponent = ({ dish }: Props) => {
+  if (dish == null) {
     return <></>;
   }
 
@@ -23,7 +23,7 @@ const DrinkComponent = ({ drink }: Props) => {
     if (newValue < 0) {
       newValue = 0;
     }
-    setNum(newValue, drink);
+    setNum(newValue, dish);
   };
 
   useEffect(() => {
@@ -33,31 +33,32 @@ const DrinkComponent = ({ drink }: Props) => {
   return (
     <div>
       <img src="./src/shared/assets/default_food.png" />
-      <p>{drink.name}</p>
-      <p>{drink.price}p</p>
+      <p>{dish.name}</p>
+      <p>{dish.price}p</p>
+      <p>{dish.approx_time} мин</p>
       <div id="add_to_cart">
-        {drink.id in cart ? (
+        {dish.id in cart ? (
           <>
             <IconButton
               id="button"
               onClick={() => {
-                decrementInCart(drink);
+                decrementInCart(dish);
               }}
             >
               <HorizontalRuleIcon />
             </IconButton>
             <TextField
               type="number"
-              className="text-input"
+              className="text-input "
               id="cartNum"
               variant="outlined"
-              value={cart[drink.id].num}
+              value={cart[dish.id].num}
               onChange={handleNumberChange}
             />
             <IconButton
               id="button"
               onClick={() => {
-                addToCart(drink);
+                addToCart(dish);
               }}
             >
               <AddIcon />
@@ -68,7 +69,7 @@ const DrinkComponent = ({ drink }: Props) => {
             id="button"
             variant="contained"
             onClick={() => {
-              addToCart(drink);
+              addToCart(dish);
             }}
           >
             Добавить в корзину
@@ -79,4 +80,4 @@ const DrinkComponent = ({ drink }: Props) => {
   );
 };
 
-export default DrinkComponent;
+export default DishComponent;

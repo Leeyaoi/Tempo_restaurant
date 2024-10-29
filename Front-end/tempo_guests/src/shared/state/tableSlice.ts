@@ -1,42 +1,42 @@
 import { StateCreator } from "zustand";
-import CategoryType from "../types/category";
-import { sliceResetFns } from "./globalStore";
 import { HttpRequest } from "../../api/GenericApi";
 import { RESTMethod } from "../types/RESTMethodEnum";
+import TableType from "../types/table";
+import { sliceResetFns } from "./globalStore";
 
-export interface MenuSlice {
+export interface TableSlice {
   loading: boolean;
   success: boolean;
   errorMessage: string;
-  menu: CategoryType[];
-  fetchMenu: () => void;
+  tables: TableType[];
+  fetchTables: () => void;
 }
 
-const InitialMenuSlice = {
+const InitialTableSlice = {
   loading: false,
   success: false,
   errorMessage: "",
-  menu: [],
+  tables: [],
 };
 
-export const MenuStore: StateCreator<MenuSlice> = (set, get) => {
+export const TableStore: StateCreator<TableSlice> = (set, get) => {
   sliceResetFns.add(() => {
-    set(InitialMenuSlice);
+    set(InitialTableSlice);
   });
   return {
-    ...InitialMenuSlice,
+    ...InitialTableSlice,
 
-    fetchMenu: async () => {
+    fetchTables: async () => {
       set({ loading: true });
-      const res = await HttpRequest<{ items: CategoryType[] }>({
-        uri: "/category",
+      const res = await HttpRequest<{ items: TableType[] }>({
+        uri: "/table",
         method: RESTMethod.Get,
       });
       if (res.code == "error") {
         set({ errorMessage: res.error.message, loading: false });
         return;
       }
-      set({ menu: res.data.items, loading: false });
+      set({ tables: res.data.items, loading: false });
     },
   };
 };

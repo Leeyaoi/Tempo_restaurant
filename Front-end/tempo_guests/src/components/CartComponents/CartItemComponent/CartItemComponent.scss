@@ -1,0 +1,43 @@
+.cart_photo{
+    grid-area: photo;
+    border-right: 0.1rem solid #ef7f1a;
+    height: 9.5rem;
+    margin: 0;
+}
+
+.cart_name{
+    border-bottom: 0.1rem solid #ef7f1a;
+    grid-area: name;
+    width: 15rem;
+    height: 6rem;
+    margin: 0;
+    padding-top: 1rem;
+}
+
+.cart_price{
+    grid-area: price;
+    height: 2rem;
+    line-height: 2rem;
+    margin: 0;
+}
+
+.cart_number{
+    border-left: 0.1rem solid #ef7f1a;
+    grid-area: number;
+    margin: 0;
+    padding-top: 0.1rem;
+    width: 5rem;
+
+    & > *{
+        margin-top: 0.35rem !important;
+    }
+}
+
+.CartItemComponent{
+    border: 0.1rem solid #ef7f1a;
+    margin-top: -0.1rem;
+    display: grid;
+    grid-template-areas:
+      'photo name number'
+      'photo price number';
+}
