@@ -2,6 +2,8 @@ import { create } from "zustand";
 import { devtools, persist, createJSONStorage } from "zustand/middleware";
 import { UserSlice, UserStore } from "./userSlice";
 import { MenuSlice, MenuStore } from "./menuSlice";
+import { CartSlice, CartStore } from "./cartSlice";
+import { TableSlice, TableStore } from "./tableSlice";
 
 export const sliceResetFns = new Set<() => void>();
 
@@ -11,7 +13,11 @@ export const resetGlobalStore = () => {
   });
 };
 
-export interface GlobalStoreState extends UserSlice, MenuSlice {}
+export interface GlobalStoreState
+  extends UserSlice,
+    MenuSlice,
+    CartSlice,
+    TableSlice {}
 
 export const useGlobalStore = create<GlobalStoreState>()(
   devtools(
@@ -19,6 +25,8 @@ export const useGlobalStore = create<GlobalStoreState>()(
       (...a) => ({
         ...UserStore(...a),
         ...MenuStore(...a),
+        ...CartStore(...a),
+        ...TableStore(...a),
       }),
       {
         name: "app-storage",
