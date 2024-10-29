@@ -12,6 +12,7 @@ public class DishDto : IBaseDto
     public int Approx_time { get; set; }
     public Decimal Price { get; set; }
     public Guid CategoryId { get; set; }
+    public string Photo { get; set; } = string.Empty;
 
     public CategoryDto? Category { get; set; }
     public List<DishwareDishDto?> DishwareList { get; set; } = new();

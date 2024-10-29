@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import DishType from "../../../shared/types/dish";
 import AddIcon from "@mui/icons-material/Add";
 import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
+import { IKImage } from "imagekitio-react";
 import { Button, IconButton, TextField } from "@mui/material";
 import { useGlobalStore } from "../../../shared/state/globalStore";
 
@@ -32,7 +33,11 @@ const DishComponent = ({ dish }: Props) => {
 
   return (
     <div>
-      <img src="./src/shared/assets/default_food.png" />
+      {dish.photo ? (
+        <IKImage urlEndpoint={process.env.IMAGE_API} path={dish.photo} />
+      ) : (
+        <img src="./src/shared/assets/default_food.png" />
+      )}
       <p>{dish.name}</p>
       <p>{dish.price}p</p>
       <p>{dish.approx_time} мин</p>

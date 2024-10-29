@@ -5,6 +5,7 @@ import { IconButton, TextField } from "@mui/material";
 import { useGlobalStore } from "../../../shared/state/globalStore";
 import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
 import AddIcon from "@mui/icons-material/Add";
+import { IKImage } from "imagekitio-react";
 
 const CartItemComponent = ({ item }: { item: CartItem }) => {
   const { setNum, addToCart, decrementInCart } = useGlobalStore();
@@ -21,7 +22,18 @@ const CartItemComponent = ({ item }: { item: CartItem }) => {
 
   return (
     <div className="CartItemComponent">
-      <img src="./src/shared/assets/default_food.png" className="cart_photo" />
+      {item.item.photo ? (
+        <IKImage
+          className="cart_photo"
+          urlEndpoint={process.env.IMAGE_API}
+          path={item.item.photo}
+        />
+      ) : (
+        <img
+          className="cart_photo"
+          src="./src/shared/assets/default_food.png"
+        />
+      )}
       <p className="cart_name">{item.item.name}</p>
       <p className="cart_price">{item.item.price}p</p>
       <div className="cart_number">
