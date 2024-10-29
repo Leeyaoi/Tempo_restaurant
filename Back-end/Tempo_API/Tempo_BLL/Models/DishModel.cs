@@ -6,6 +6,7 @@ public class DishModel : BaseModel
     public int Approx_time { get; set; }
     public Decimal Price { get; set; }
     public Guid CategoryId { get; set; }
+    public string Photo { get; set; } = string.Empty;
 
     public CategoryModel? Category { get; set; }
     public List<DishwareDishModel?> DishwareList { get; set; } = new();

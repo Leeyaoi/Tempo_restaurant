@@ -8,4 +8,5 @@ public class CreateDishDto : IBaseDto
     public int Approx_time { get; set; }
     public Decimal Price { get; set; }
     public Guid CategoryId { get; set; }
+    public string Photo { get; set; } = string.Empty;
 }
