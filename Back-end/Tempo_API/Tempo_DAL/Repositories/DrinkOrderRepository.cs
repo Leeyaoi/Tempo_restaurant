@@ -1,5 +1,4 @@
-﻿
-using Tempo_DAL.Entities;
+﻿using Tempo_DAL.Entities;
 using Tempo_DAL.Interfaces;
 
 namespace Tempo_DAL.Repositories;
