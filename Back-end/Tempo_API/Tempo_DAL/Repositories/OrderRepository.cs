@@ -16,7 +16,8 @@ public class OrderRepository : GenericRepository<OrderEntity>, IOrderRepository
         var data = dbSet
             .AsNoTracking()
             .Include(e => e.Table)
-            .Include(e => e.Dishes)
+            .Include(e => e.Dishes).ThenInclude(e => e.Dish)
+            .Include(e => e.Drinks).ThenInclude(e => e.Drink)
             .Include(e => e.User);
 
         total = data.Count();

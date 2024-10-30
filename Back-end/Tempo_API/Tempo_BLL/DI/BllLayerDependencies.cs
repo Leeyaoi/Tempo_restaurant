@@ -24,5 +24,6 @@ public static class BllLayerDependencies
         services.AddTransient<ITablewareService, TablewareService>();
         services.AddTransient<IUserService, UserService>();
         services.AddTransient<IWaiterService, WaiterService>();
+
     }
 }

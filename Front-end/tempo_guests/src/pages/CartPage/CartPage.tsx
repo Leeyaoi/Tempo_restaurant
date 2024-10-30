@@ -9,6 +9,7 @@ import {
   Select,
   SelectChangeEvent,
   TextField,
+  InputLabel,
 } from "@mui/material";
 import Header from "../../modules/header/Header";
 import Footer from "../../modules/footer/Footer";
@@ -18,14 +19,15 @@ import AddIcon from "@mui/icons-material/Add";
 import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
 
 const CartPage = () => {
-  let { cart, countPrice, countTime, tables, fetchTables } = useGlobalStore();
+  let { cart, countPrice, countTime, tables, fetchTables, postOrder } =
+    useGlobalStore();
   const [peopleNumber, setPeopleNumber] = useState(1);
 
   useEffect(() => {
     fetchTables();
   }, []);
 
-  const [table, setTable] = useState("0");
+  const [table, setTable] = useState("");
 
   cart = Object.fromEntries(
     Object.entries(cart).sort(([a], [b]) => (a > b ? -1 : 1))
@@ -103,7 +105,7 @@ const CartPage = () => {
           </p>
           <div id="cart_table_select">
             <p>Стол:</p>
-            <FormControl fullWidth>
+            <FormControl fullWidth variant="standard">
               <Select
                 className="text-input"
                 value={table}
@@ -121,7 +123,13 @@ const CartPage = () => {
               </Select>
             </FormControl>
           </div>
-          <Button id="button" variant="contained">
+          <Button
+            id="button"
+            variant="contained"
+            onClick={() => {
+              postOrder(Number.parseInt(table), peopleNumber);
+            }}
+          >
             Оформить заказ
           </Button>
         </div>

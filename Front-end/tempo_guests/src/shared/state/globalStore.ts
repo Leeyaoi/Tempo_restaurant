@@ -4,6 +4,7 @@ import { UserSlice, UserStore } from "./userSlice";
 import { MenuSlice, MenuStore } from "./menuSlice";
 import { CartSlice, CartStore } from "./cartSlice";
 import { TableSlice, TableStore } from "./tableSlice";
+import { OrderSlice, OrderStore } from "./orderSlice";
 
 export const sliceResetFns = new Set<() => void>();
 
@@ -17,7 +18,8 @@ export interface GlobalStoreState
   extends UserSlice,
     MenuSlice,
     CartSlice,
-    TableSlice {}
+    TableSlice,
+    OrderSlice {}
 
 export const useGlobalStore = create<GlobalStoreState>()(
   devtools(
@@ -27,6 +29,7 @@ export const useGlobalStore = create<GlobalStoreState>()(
         ...MenuStore(...a),
         ...CartStore(...a),
         ...TableStore(...a),
+        ...OrderStore(...a),
       }),
       {
         name: "app-storage",
