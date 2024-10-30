@@ -1,5 +1,5 @@
-﻿using Tempo_API.DTOs.DishDtos;
-using Tempo_API.DTOs.DrinkDtos;
+﻿using Tempo_API.DTOs.DishOrderDtos;
+using Tempo_API.DTOs.DrinkOrderDtos;
 using Tempo_API.DTOs.TableDtos;
 using Tempo_API.DTOs.UserDtos;
 using Tempo_API.Interfaces;
@@ -13,12 +13,10 @@ public class OrderDto : IBaseDto
     public int People_num { get; set; }
     public OrderStatus Status { get; set; }
     public Guid TableId { get; set; }
-    public List<Guid> DishesId { get; set; } = new();
-    public List<Guid> DrinksId { get; set; } = new();
     public Guid UserId { get; set; }
 
     public TableDto? Table { get; set; }
     public UserDto? User { get; set; }
-    public List<DishDto> Dishes { get; set; } = new();
-    public List<DrinkDto> Drinks { get; set; } = new();
+    public List<DishOrderDto> Dishes { get; set; } = new();
+    public List<DrinkOrderDto> Drinks { get; set; } = new();
 }

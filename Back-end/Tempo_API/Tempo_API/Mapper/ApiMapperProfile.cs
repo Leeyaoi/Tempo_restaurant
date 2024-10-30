@@ -3,9 +3,11 @@ using Tempo_API.DTOs.BillDtos;
 using Tempo_API.DTOs.CategoryDtos;
 using Tempo_API.DTOs.CookDtos;
 using Tempo_API.DTOs.DishDtos;
+using Tempo_API.DTOs.DishOrderDtos;
 using Tempo_API.DTOs.DishwareDishDtos;
 using Tempo_API.DTOs.DishwareDtos;
 using Tempo_API.DTOs.DrinkDtos;
+using Tempo_API.DTOs.DrinkOrderDtos;
 using Tempo_API.DTOs.EmployeeDtos;
 using Tempo_API.DTOs.IngredientDishDtos;
 using Tempo_API.DTOs.IngredientDtos;
@@ -19,7 +21,7 @@ using Tempo_BLL.Models;
 
 namespace Tempo_API.Mapper;
 
-public class ApiMapperProfile : Profile 
+public class ApiMapperProfile : Profile
 {
     public ApiMapperProfile()
     {
@@ -86,5 +88,8 @@ public class ApiMapperProfile : Profile
         CreateMap<WaiterModel, WaiterDto>().ReverseMap();
         CreateMap<WaiterModel, CreateWaiterDto>().ReverseMap();
         CreateMap<WaiterDto, CreateWaiterDto>().ReverseMap();
+
+        CreateMap<DrinkOrderModel, DrinkOrderDto>().ReverseMap();
+        CreateMap<DishOrderModel, DishOrderDto>().ReverseMap();
     }
 }

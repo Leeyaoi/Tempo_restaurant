@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Tempo_DAL;
@@ -11,9 +12,11 @@ using Tempo_DAL;
 namespace Tempo_DAL.Migrations
 {
     [DbContext(typeof(TempoDbContext))]
-    partial class TempoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241030105947_AddOrderDishTable")]
+    partial class AddOrderDishTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -209,7 +212,7 @@ namespace Tempo_DAL.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("DishOrder");
+                    b.ToTable("DishOrderEntity");
                 });
 
             modelBuilder.Entity("Tempo_DAL.Entities.DishwareDishEntity", b =>
@@ -279,6 +282,9 @@ namespace Tempo_DAL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid?>("OrderEntityId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Photo")
                         .IsRequired()
                         .HasColumnType("text");
@@ -293,34 +299,9 @@ namespace Tempo_DAL.Migrations
 
                     b.HasIndex("CategoryId");
 
+                    b.HasIndex("OrderEntityId");
+
                     b.ToTable("Drink");
-                });
-
-            modelBuilder.Entity("Tempo_DAL.Entities.DrinkOrderEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("DrinkId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("OrderId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DrinkId");
-
-                    b.HasIndex("OrderId");
-
-                    b.ToTable("DrinkOrder");
                 });
 
             modelBuilder.Entity("Tempo_DAL.Entities.EmployeeEntity", b =>
@@ -702,26 +683,11 @@ namespace Tempo_DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("Tempo_DAL.Entities.DrinkOrderEntity", b =>
-                {
-                    b.HasOne("Tempo_DAL.Entities.DrinkEntity", "Drink")
-                        .WithMany()
-                        .HasForeignKey("DrinkId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Tempo_DAL.Entities.OrderEntity", "Order")
+                    b.HasOne("Tempo_DAL.Entities.OrderEntity", null)
                         .WithMany("Drinks")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OrderEntityId");
 
-                    b.Navigation("Drink");
-
-                    b.Navigation("Order");
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Tempo_DAL.Entities.IngredientDishEntity", b =>

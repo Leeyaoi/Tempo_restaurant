@@ -24,9 +24,11 @@ public class TempoDbContext : DbContext
     public DbSet<CategoryEntity> Category { get; set; }
     public DbSet<CookEntity> Cook { get; set; }
     public DbSet<DishEntity> Dish { get; set; }
+    public DbSet<DishOrderEntity> DishOrder { get; set; }
     public DbSet<DishwareDishEntity> DishwareDish { get; set; }
     public DbSet<DishwareEntity> Dishware { get; set; }
     public DbSet<DrinkEntity> Drink { get; set; }
+    public DbSet<DrinkOrderEntity> DrinkOrder { get; set; }
     public DbSet<EmployeeEntity> Employee { get; set; }
     public DbSet<IngredientDishEntity> IngredientDish { get; set; }
     public DbSet<IngredientEntity> Ingredient { get; set; }

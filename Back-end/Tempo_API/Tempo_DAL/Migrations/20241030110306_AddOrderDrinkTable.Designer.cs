@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Tempo_DAL;
@@ -11,9 +12,11 @@ using Tempo_DAL;
 namespace Tempo_DAL.Migrations
 {
     [DbContext(typeof(TempoDbContext))]
-    partial class TempoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241030110306_AddOrderDrinkTable")]
+    partial class AddOrderDrinkTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -279,6 +282,9 @@ namespace Tempo_DAL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid?>("OrderEntityId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Photo")
                         .IsRequired()
                         .HasColumnType("text");
@@ -292,6 +298,8 @@ namespace Tempo_DAL.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("OrderEntityId");
 
                     b.ToTable("Drink");
                 });
@@ -702,6 +710,10 @@ namespace Tempo_DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Tempo_DAL.Entities.OrderEntity", null)
+                        .WithMany("Drinks")
+                        .HasForeignKey("OrderEntityId");
+
                     b.Navigation("Category");
                 });
 
@@ -714,7 +726,7 @@ namespace Tempo_DAL.Migrations
                         .IsRequired();
 
                     b.HasOne("Tempo_DAL.Entities.OrderEntity", "Order")
-                        .WithMany("Drinks")
+                        .WithMany()
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
