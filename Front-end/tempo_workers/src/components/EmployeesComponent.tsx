@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 import { useGlobalStore } from '../shared/state/globalStore';
 import { SelectChangeEvent } from '@mui/material';
-import "./employeesComponent.scss";
 import EmployeeDataGrid from './EmployeeDataGrid';
 
 const EmployeesComponent = () => {
