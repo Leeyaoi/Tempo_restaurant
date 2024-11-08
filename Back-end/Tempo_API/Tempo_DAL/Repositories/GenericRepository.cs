@@ -78,7 +78,10 @@ public class GenericRepository<Entity> : IGenericRepository<Entity> where Entity
             data = data.Where(predicate);
         }
         total = data.Count();
-        count = total / limit;
+
+        if (total % limit == 0) { count = total / limit; }
+        else { count = (total / limit) + 1; }
+
         return data.Skip(limit * (page - 1)).Take(limit).ToListAsync(cancellationToken);
     }
 }

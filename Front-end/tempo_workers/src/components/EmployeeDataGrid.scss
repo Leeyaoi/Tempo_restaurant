@@ -1,0 +1,49 @@
+#pagination-control{
+    display: flex;
+    margin-left: auto;
+
+    & > *{
+        margin-left: 1rem;
+    }
+
+    & > p{
+        margin: 0;
+        margin-left: 1rem;
+        line-height: 2rem;
+    }
+}
+
+#pagination-size-control{
+    display: flex;
+    margin-top: 1rem;
+
+    & > p{
+        margin: 0;
+        margin-right: 1rem;
+        line-height: 2rem;
+    }
+}
+
+#total_data{
+    margin-left: 1rem !important;
+}
+
+.MuiDataGrid-root {
+    background-color: #ffffff !important; /* Белый фон для всей таблицы */
+}
+
+
+#pagination-control button,
+#pagination-size-control button,
+#add {
+    background-color: #d67112 !important; /* Оранжевый цвет */
+    color: #ffffff !important;           /* Белый цвет текста */
+    border: none;
+}
+
+#pagination-control button:hover,
+#pagination-size-control button:hover,
+#add:hover,
+#actionButton:hover {
+    background-color: #FF8C00 !important; /* Более темный оттенок оранжевого при наведении */
+}
