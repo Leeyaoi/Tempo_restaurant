@@ -1,21 +1,25 @@
 import React from 'react'
-import EmployeesComponent from '../../components/EmployeesComponent';
+import WaiterComponent from '../../components/WaiterDataGrid/WaiterComponent';
+import CookComponent from '../../components/CookDataGrid/CookComponent';
 
 const MainModule = ({ selectedIndex }: { selectedIndex: number }) => {
     if (selectedIndex == 1) {
-        return <EmployeesComponent />;
-    }
-    if (selectedIndex == 0) {
-        return <p>Dishes</p>;
+        return <CookComponent />;
     }
     if (selectedIndex == 2) {
-        return <p>Ingredients</p>
+        return <WaiterComponent/>;
     }
     if (selectedIndex == 3) {
-        return <p>Drinks</p>
+        return <p>Блюда</p>
     }
     if (selectedIndex == 4) {
-        return <p>Ingredient</p>
+        return <p>Ингредиенты</p>
+    }
+    if (selectedIndex == 5) {
+        return <p>Напитки</p>
+    }
+    if (selectedIndex == 6) {
+        return <p>Ингредиенты</p>
     }
 }
 

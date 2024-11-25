@@ -1,7 +1,6 @@
 declare module "PaginatedType";
 
 type PaginatedType<Model> = {
-
     items: Model[];
     limit: number;    
     page: number;     

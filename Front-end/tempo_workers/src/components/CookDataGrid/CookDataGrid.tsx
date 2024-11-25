@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import './EmployeeDataGrid.scss';
+import React, { useEffect, useState } from "react";
+import './CookDataGrid.scss';
 import {
   Button,
   FormControl,
@@ -17,23 +17,24 @@ import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrow
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
-import EmployeeType from "../shared/types/employee";
-import PaginatedType from "../shared/types/paginatedModel";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import PaginatedType from "../../shared/types/paginatedModel";
+import CookType from "../../shared/types/cook";
+import { useGlobalStore } from "../../shared/state/globalStore";
 
 interface Props {
-  employee: PaginatedType<EmployeeType>;
+  cook: PaginatedType<CookType>;
   limit: number;
   handleLimitChange: (event: SelectChangeEvent) => void;
   page: number;
   setPage: (value: number) => void;
-  handleEdit: (id: string, data: Partial<EmployeeType>) => void;
+  handleEdit: (id: string, data: Partial<CookType>) => void;
   handleDelete: (id: string) => void;
 }
 
-const EmployeeDataGrid = ({
-  employee,
+const CookDataGrid = ({
+  cook,
   limit,
   handleLimitChange,
   page,
@@ -41,30 +42,35 @@ const EmployeeDataGrid = ({
   handleEdit,
   handleDelete,
 }: Props) => {
+  const { updateCook, fetchCategory, Category } = useGlobalStore();
+  // const { Category } = useGlobalStore();
+  // const { fetchCategory } = useGlobalStore();
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
-  const [newEmployee, setNewEmployee] = useState<EmployeeType>({
-    login: "",
-    password: "",
-  });
+  const [newCook, setNewCook] = useState<CookType>({} as CookType);
   const [editId, setEditId] = useState<string | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
-  const handleOpenEditDialog = (id: string, data: EmployeeType) => {
+  useEffect(() => { fetchCategory() },
+    []
+  )
+
+  const handleOpenEditDialog = (id: string, data: CookType) => {
     setEditId(id);
-    setNewEmployee(data);
+    setNewCook(data);
     setOpenEdit(true);
   };
 
   const handleCloseEdit = () => {
     setOpenEdit(false);
     setEditId(null);
-    setNewEmployee({ login: "", password: "" });
+    setNewCook({} as CookType);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    console.log(editId)
     if (editId) {
-      handleEdit(editId, newEmployee);
+      await updateCook(editId, newCook);
     }
     handleCloseEdit();
   };
@@ -86,31 +92,73 @@ const EmployeeDataGrid = ({
     handleCloseDelete();
   };
 
-  const columns: GridColDef<EmployeeType[][number]>[] = [
+  const handleCategoryChange = (event: SelectChangeEvent) => {
+    setNewCook({ ...newCook, categoryId: event.target.value })
+  };
+
+  const renderCategory = () => {
+    const items: any[] = [];
+    for (let i in Category.items) {
+      let value = Category.items[i];
+      if (value == null) {
+        continue;
+      }
+      items.push(
+        <MenuItem
+          key={`${value.id}`}
+          value={value.id}
+        >{`${value.name}`}</MenuItem>
+      )
+    }
+    return items;
+  }
+
+  const columns: GridColDef<CookType[][number]>[] = [
+    {
+      field: "name",
+      headerName: "Имя",
+      width: 180,
+      editable: false,
+    },
+    {
+      field: "surname",
+      headerName: "Фамилия",
+      width: 180,
+      editable: false,
+    },
     {
       field: "login",
       headerName: "Логин",
-      width: 240,
+      renderCell: (params) => { if (params.row.employee) return params.row.employee.login },
+      width: 150,
       editable: false,
     },
     {
       field: "password",
       headerName: "Пароль",
-      width: 240,
+      renderCell: (params) => { if (params.row.employee) return params.row.employee.password },
+      width: 150,
+      editable: false,
+    },
+    {
+      field: "category",
+      headerName: "Категория",
+      renderCell: (params) => { if (params.row.category) return params.row.category.name },
+      width: 150,
       editable: false,
     },
     {
       field: "actions",
       headerName: "Действия",
-      width: 240,
+      width: 190,
       renderCell: (params) => (
         <>
           <Button
-            style={{ marginRight: '0.5rem'}}
+            style={{ marginRight: '0.5rem' }}
             color="success"
             variant="contained"
             id="actionButton"
-            onClick={() => handleOpenEditDialog(params.id as string, params.row)}
+            onClick={() => handleOpenEditDialog(params.row.id as string, params.row)}
           >
             <EditIcon />
           </Button>
@@ -131,7 +179,7 @@ const EmployeeDataGrid = ({
     <>
       <div>
         <DataGrid
-          rows={employee ? employee.items : []}
+          rows={cook ? cook.items : []}
           columns={columns}
           disableRowSelectionOnClick
           hideFooter={true}
@@ -154,7 +202,7 @@ const EmployeeDataGrid = ({
           </Select>
         </FormControl>
         <p id="total_data">
-          Всего записей: {employee ? employee.total : 0}
+          Всего записей: {cook ? cook.total : 0}
         </p>
         <div id="pagination-control">
           <Button
@@ -170,17 +218,17 @@ const EmployeeDataGrid = ({
             <KeyboardArrowLeftIcon />
           </Button>
           <p>
-            {employee ? employee.page : 0} .. {employee ? employee.pageCount : 0}
+            {cook ? cook.page : 0} .. {cook ? cook.pageCount : 0}
           </p>
           <Button
             variant="contained"
-            onClick={() => setPage(Math.min(employee.pageCount, page + 1))}
+            onClick={() => setPage(Math.min(cook.pageCount, page + 1))}
           >
             <KeyboardArrowRightIcon />
           </Button>
           <Button
             variant="contained"
-            onClick={() => setPage(employee.pageCount)}
+            onClick={() => setPage(cook.pageCount)}
           >
             <KeyboardDoubleArrowRightIcon />
           </Button>
@@ -193,19 +241,46 @@ const EmployeeDataGrid = ({
           <TextField
             autoFocus
             margin="dense"
+            label="Имя"
+            fullWidth
+            value={newCook.name}
+            onChange={(e) => setNewCook({ ...newCook, name: e.target.value })}
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Фамилия"
+            fullWidth
+            value={newCook.surname}
+            onChange={(e) => setNewCook({ ...newCook, surname: e.target.value })}
+          />
+          <TextField
+            autoFocus
+            margin="dense"
             label="Логин"
             fullWidth
-            value={newEmployee.login}
-            onChange={(e) => setNewEmployee({ ...newEmployee, login: e.target.value })}
+            value={newCook.employee ? newCook.employee.login : ""}
+            onChange={(e) => setNewCook({ ...newCook, employee: { ...newCook.employee, login: e.target.value } })}
           />
           <TextField
             margin="dense"
             label="Пароль"
             type="text"
             fullWidth
-            value={newEmployee.password}
-            onChange={(e) => setNewEmployee({ ...newEmployee, password: e.target.value })}
+            value={newCook.employee ? newCook.employee.password : ""}
+            onChange={(e) => setNewCook({ ...newCook, employee: { ...newCook.employee, password: e.target.value } })}
           />
+
+          <FormControl fullWidth variant="standard">
+            <Select
+              className="text-input"
+              value={newCook.categoryId ?? ""}
+              onChange={handleCategoryChange}
+            >
+              {renderCategory()}
+            </Select>
+          </FormControl>
+
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseEdit}>Отмена</Button>
@@ -229,6 +304,4 @@ const EmployeeDataGrid = ({
   );
 };
 
-export default EmployeeDataGrid;
-
-
+export default CookDataGrid;
