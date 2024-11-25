@@ -38,16 +38,8 @@ export default function NestedList() {
 
   const [selectedIndex, setSelectedIndex] = React.useState(1);
 
-  // const handleListItemClick = (
-  //   event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-  //   index: number,
-  // ) => {
-  //   setSelectedIndex(index);
-  // };
-
   const [openEmployees, setOpenEmployees] = useState(false);
   const [openDishes, setOpenDishes] = useState(false);
-  // const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   const handleToggleEmployees = () => {
     setOpenEmployees(!openEmployees);
@@ -57,7 +49,6 @@ export default function NestedList() {
     setOpenDishes(!openDishes);
   };
 
-  // Указываем типы для параметров
   const handleListItemClick = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
     index: number

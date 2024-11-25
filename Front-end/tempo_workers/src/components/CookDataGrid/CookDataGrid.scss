@@ -29,15 +29,15 @@
 }
 
 .MuiDataGrid-root {
-    background-color: #ffffff !important; /* Белый фон для всей таблицы */
+    background-color: #ffffff !important;
 }
 
 
 #pagination-control button,
 #pagination-size-control button,
 #add {
-    background-color: #d67112 !important; /* Оранжевый цвет */
-    color: #ffffff !important;           /* Белый цвет текста */
+    background-color: #d67112 !important; 
+    color: #ffffff !important;           
     border: none;
 }
 
@@ -45,5 +45,5 @@
 #pagination-size-control button:hover,
 #add:hover,
 #actionButton:hover {
-    background-color: #FF8C00 !important; /* Более темный оттенок оранжевого при наведении */
+    background-color: #FF8C00 !important; 
 }
