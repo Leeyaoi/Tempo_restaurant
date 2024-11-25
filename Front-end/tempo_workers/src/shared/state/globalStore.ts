@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { devtools, persist, createJSONStorage } from "zustand/middleware";
 import { EmployeeSlice, EmployeeStore } from "./employeeSlice";
+import { CategorySlice, CategoryStore } from "./categorySlice";
 
 
 export const sliceResetFns = new Set<() => void>();
@@ -12,12 +13,13 @@ export const resetGlobalStore = () => {
 };
 
 export interface GlobalStoreState
-    extends EmployeeSlice { }
+    extends EmployeeSlice, CategorySlice { }
 
 export const useGlobalStore = create<GlobalStoreState>()(
     devtools(
         persist(
             (...a) => ({
+                ...CategoryStore(...a),
                 ...EmployeeStore(...a),
             }),
             {

@@ -16,15 +16,18 @@ import KitchenRoundedIcon from '@mui/icons-material/KitchenRounded';
 import { useGlobalStore } from '../../shared/state/globalStore';
 import MainModule from '../../modules/mainModule/MainModule';
 import EmployeeType from '../../shared/types/employee';
+import { useState } from 'react';
 
 export default function NestedList() {
-  const { employees, fetchEmployees } = useGlobalStore();
+  const { cooks, fetchCooks } = useGlobalStore();
+  const { waiters, fetchWaiters } = useGlobalStore();
 
   const [limit, setLimit] = React.useState(5);
   const [page, setPage] = React.useState(1);
 
   React.useEffect(() => {
-    fetchEmployees(page, limit);
+    fetchCooks(page, limit);
+    fetchWaiters(page, limit);
   }, [page, limit]);
 
   const [open, setOpen] = React.useState(false);
@@ -35,9 +38,29 @@ export default function NestedList() {
 
   const [selectedIndex, setSelectedIndex] = React.useState(1);
 
+  // const handleListItemClick = (
+  //   event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  //   index: number,
+  // ) => {
+  //   setSelectedIndex(index);
+  // };
+
+  const [openEmployees, setOpenEmployees] = useState(false);
+  const [openDishes, setOpenDishes] = useState(false);
+  // const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+
+  const handleToggleEmployees = () => {
+    setOpenEmployees(!openEmployees);
+  };
+
+  const handleToggleDishes = () => {
+    setOpenDishes(!openDishes);
+  };
+
+  // Указываем типы для параметров
   const handleListItemClick = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    index: number,
+    index: number
   ) => {
     setSelectedIndex(index);
   };
@@ -47,48 +70,69 @@ export default function NestedList() {
       <Header />
       <div id="content">
         <List sx={{ width: '50%', maxWidth: 360 }}>
-          <ListItemButton selected={selectedIndex === 1}
-            onClick={(event) => handleListItemClick(event, 1)}>
+          <ListItemButton onClick={handleToggleEmployees}>
             <ListItemIcon>
               <PeopleIcon />
             </ListItemIcon>
             <ListItemText primary="Сотрудники" />
+            {openEmployees ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
+          <Collapse in={openEmployees} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <ListItemButton
+                sx={{ pl: 4 }}
+                selected={selectedIndex === 1}
+                onClick={(event) => handleListItemClick(event, 1)}
+              >
+                <ListItemText primary="Повара" />
+              </ListItemButton>
+              <ListItemButton
+                sx={{ pl: 4 }}
+                selected={selectedIndex === 2}
+                onClick={(event) => handleListItemClick(event, 2)}
+              >
+                <ListItemText primary="Официанты" />
+              </ListItemButton>
+            </List>
+          </Collapse>
 
-          <ListItemButton onClick={handleClick}>
+          {/* Блюда */}
+          <ListItemButton onClick={handleToggleDishes}>
             <ListItemIcon>
               <LunchDiningIcon />
             </ListItemIcon>
             <ListItemText primary="Блюда" />
-            {open ? <ExpandLess /> : <ExpandMore />}
+            {openDishes ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
-          <Collapse in={open} timeout="auto" unmountOnExit>
+          <Collapse in={openDishes} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <ListItemButton sx={{ pl: 4 }} selected={selectedIndex === 0}
-                onClick={(event) => handleListItemClick(event, 0)}>
-                <ListItemIcon>
-                </ListItemIcon>
+              <ListItemButton
+                sx={{ pl: 4 }}
+                selected={selectedIndex === 3}
+                onClick={(event) => handleListItemClick(event, 3)}
+              >
                 <ListItemText primary="Блюда" />
               </ListItemButton>
-              <ListItemButton sx={{ pl: 4 }} selected={selectedIndex === 2}
-                onClick={(event) => handleListItemClick(event, 2)}>
-                <ListItemIcon>
-                </ListItemIcon>
+              <ListItemButton
+                sx={{ pl: 4 }}
+                selected={selectedIndex === 4}
+                onClick={(event) => handleListItemClick(event, 4)}
+              >
                 <ListItemText primary="Ингредиенты" />
               </ListItemButton>
             </List>
           </Collapse>
 
-          <ListItemButton selected={selectedIndex === 3}
-            onClick={(event) => handleListItemClick(event, 3)}>
+          <ListItemButton selected={selectedIndex === 5}
+            onClick={(event) => handleListItemClick(event, 5)}>
             <ListItemIcon>
               <CoffeeRoundedIcon />
             </ListItemIcon>
             <ListItemText primary="Напитки" />
           </ListItemButton>
 
-          <ListItemButton selected={selectedIndex === 4}
-            onClick={(event) => handleListItemClick(event, 4)}>
+          <ListItemButton selected={selectedIndex === 6}
+            onClick={(event) => handleListItemClick(event, 6)}>
             <ListItemIcon>
               <KitchenRoundedIcon />
             </ListItemIcon>
