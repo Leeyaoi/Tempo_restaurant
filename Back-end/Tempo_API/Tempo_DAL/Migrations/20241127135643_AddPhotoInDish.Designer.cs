@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Tempo_DAL;
@@ -11,9 +12,11 @@ using Tempo_DAL;
 namespace Tempo_DAL.Migrations
 {
     [DbContext(typeof(TempoDbContext))]
-    partial class TempoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241127135643_AddPhotoInDish")]
+    partial class AddPhotoInDish
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,6 +38,21 @@ namespace Tempo_DAL.Migrations
                     b.HasIndex("DishwareListId");
 
                     b.ToTable("DishEntityDishwareEntity");
+                });
+
+            modelBuilder.Entity("DishEntityIngredientEntity", b =>
+                {
+                    b.Property<Guid>("DishesId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("IngredientsId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("DishesId", "IngredientsId");
+
+                    b.HasIndex("IngredientsId");
+
+                    b.ToTable("DishEntityIngredientEntity");
                 });
 
             modelBuilder.Entity("DishEntityTablewareEntity", b =>
@@ -149,9 +167,6 @@ namespace Tempo_DAL.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid?>("IngredientEntityId")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -172,8 +187,6 @@ namespace Tempo_DAL.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("IngredientEntityId");
 
                     b.HasIndex("OrderEntityId");
 
@@ -519,6 +532,21 @@ namespace Tempo_DAL.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("DishEntityIngredientEntity", b =>
+                {
+                    b.HasOne("Tempo_DAL.Entities.DishEntity", null)
+                        .WithMany()
+                        .HasForeignKey("DishesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Tempo_DAL.Entities.IngredientEntity", null)
+                        .WithMany()
+                        .HasForeignKey("IngredientsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("DishEntityTablewareEntity", b =>
                 {
                     b.HasOne("Tempo_DAL.Entities.DishEntity", null)
@@ -572,10 +600,6 @@ namespace Tempo_DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Tempo_DAL.Entities.IngredientEntity", null)
-                        .WithMany("Dishes")
-                        .HasForeignKey("IngredientEntityId");
-
                     b.HasOne("Tempo_DAL.Entities.OrderEntity", null)
                         .WithMany("Dishes")
                         .HasForeignKey("OrderEntityId");
@@ -616,7 +640,7 @@ namespace Tempo_DAL.Migrations
             modelBuilder.Entity("Tempo_DAL.Entities.IngredientDishEntity", b =>
                 {
                     b.HasOne("Tempo_DAL.Entities.DishEntity", "Dish")
-                        .WithMany("Ingredients")
+                        .WithMany()
                         .HasForeignKey("DishId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -701,21 +725,11 @@ namespace Tempo_DAL.Migrations
                     b.Navigation("Drinks");
                 });
 
-            modelBuilder.Entity("Tempo_DAL.Entities.DishEntity", b =>
-                {
-                    b.Navigation("Ingredients");
-                });
-
             modelBuilder.Entity("Tempo_DAL.Entities.EmployeeEntity", b =>
                 {
                     b.Navigation("Cook");
 
                     b.Navigation("Waiter");
-                });
-
-            modelBuilder.Entity("Tempo_DAL.Entities.IngredientEntity", b =>
-                {
-                    b.Navigation("Dishes");
                 });
 
             modelBuilder.Entity("Tempo_DAL.Entities.OrderEntity", b =>

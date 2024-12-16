@@ -13,5 +13,12 @@ public class DishController : GenericController<DishModel, DishDto, CreateDishDt
     public DishController(IDishService service, IMapper mapper) : base(service, mapper)
     {
     }
+
+    [HttpGet("dish")]
+    public async Task<List<DishDto>> GetByQuery(CancellationToken cancellationToken, string query)
+    {
+        var models = await _service.GetByPredicate(x => x.Name.ToLower().Contains(query.ToLower()), cancellationToken);
+        return _mapper.Map<List<DishDto>>(models);
+    }
 }
 
