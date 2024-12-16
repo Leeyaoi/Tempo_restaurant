@@ -1,7 +1,7 @@
 import React from "react";
 import CategoryType from "../../shared/types/category";
-import DishComponent from "../../components/DishComponent/DishComponent";
-import DrinkComponent from "../../components/DrinkComponent/DrinkComponent";
+import DishComponent from "../../components/MenuComponents/DishComponent/DishComponent";
+import DrinkComponent from "../../components/MenuComponents/DrinkComponent/DrinkComponent";
 import "./CategoryModule.scss";
 
 interface Props {

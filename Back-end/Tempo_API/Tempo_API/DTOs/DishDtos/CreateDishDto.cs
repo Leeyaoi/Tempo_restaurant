@@ -9,4 +9,5 @@ public class CreateDishDto : IBaseDto
     public string Photo { get; set; } = string.Empty;
     public Decimal Price { get; set; }
     public Guid CategoryId { get; set; }
+    public string Photo { get; set; } = string.Empty;
 }

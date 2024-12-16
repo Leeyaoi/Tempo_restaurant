@@ -5,6 +5,7 @@ type DishType = {
   name: string;
   approx_time: number;
   price: number;
+  photo: string;
 };
 
 export default DishType;

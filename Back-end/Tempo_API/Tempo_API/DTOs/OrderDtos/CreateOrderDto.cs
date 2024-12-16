@@ -9,4 +9,5 @@ public class CreateOrderDto : IBaseDto
     public Guid UserId { get; set; }
 
     public List<Guid> DishesId { get; set; } = new();
+    public List<Guid> DrinksId { get; set; } = new();
 }

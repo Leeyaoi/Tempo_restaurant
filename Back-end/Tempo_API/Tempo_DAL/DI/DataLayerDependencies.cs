@@ -32,6 +32,8 @@ namespace Tempo_DAL.DI
             services.AddTransient<ITablewareRepository, TablewareRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IWaiterRepository, WaiterRepository>();
+            services.AddTransient<IDishOrderRepository, DishOrderRepository>();
+            services.AddTransient<IDrinkOrderRepository, DrinkOrderRepository>();
         }
     }
 }

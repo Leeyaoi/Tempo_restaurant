@@ -25,6 +25,7 @@ export const MenuStore: StateCreator<MenuSlice> = (set, get) => {
   });
   return {
     ...InitialMenuSlice,
+
     fetchMenu: async () => {
       set({ loading: true });
       const res = await HttpRequest<{ items: CategoryType[] }>({
