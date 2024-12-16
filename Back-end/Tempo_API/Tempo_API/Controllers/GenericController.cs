@@ -10,8 +10,8 @@ namespace Tempo_API.Controllers;
 [ApiController]
 public class GenericController<Model, Dto, CreateDto> : ControllerBase where Model : BaseModel where Dto : IBaseDto where CreateDto : IBaseDto
 {
-    private readonly IGenericService<Model> _service;
-    private readonly IMapper _mapper;
+    protected readonly IGenericService<Model> _service;
+    protected readonly IMapper _mapper;
 
     public GenericController(IGenericService<Model> service, IMapper mapper)
     {

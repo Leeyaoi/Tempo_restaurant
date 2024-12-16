@@ -10,8 +10,6 @@ import {
   DialogContent,
   TextField,
   DialogActions,
-  Box,
-  InputLabel,
 } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
@@ -22,7 +20,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import WaiterType from "../../shared/types/waiter";
 import PaginatedType from "../../shared/types/paginatedModel";
-import EmployeeType from "../../shared/types/employee";
 import { useGlobalStore } from "../../shared/state/globalStore";
 
 interface Props {
@@ -93,12 +90,11 @@ const WaiterDataGrid = ({
     {
       field: "name",
       headerName: "Имя",
-      renderCell: (params) => { if (params.row) return params.row.name },
       width: 180,
       editable: false,
     },
     {
-      field: "lastName",
+      field: "surname",
       headerName: "Фамилия",
       width: 180,
       editable: false,
@@ -230,7 +226,7 @@ const WaiterDataGrid = ({
             label="Логин"
             fullWidth
             value={newWaiter.employee ? newWaiter.employee.login : ""}
-            onChange={(e) => setNewWaiter({ ...newWaiter, employee: { ...newWaiter.employee, login: e.target.value }})}
+            onChange={(e) => setNewWaiter({ ...newWaiter, employee: { ...newWaiter.employee, login: e.target.value } })}
           />
           <TextField
             margin="dense"

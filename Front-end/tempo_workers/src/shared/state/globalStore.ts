@@ -2,6 +2,10 @@ import { create } from "zustand";
 import { devtools, persist, createJSONStorage } from "zustand/middleware";
 import { EmployeeSlice, EmployeeStore } from "./employeeSlice";
 import { CategorySlice, CategoryStore } from "./categorySlice";
+import { DishesSlice, DishesStore } from "./dishesSlice";
+import { IngredientSlice, IngredientStore } from "./ingredientSlice";
+import DrinkComponent from "../../components/DrinksDataGrid/DrinkComponent";
+import { DrinkSlice, DrinkStore } from "./drinkSlice";
 
 
 export const sliceResetFns = new Set<() => void>();
@@ -13,12 +17,15 @@ export const resetGlobalStore = () => {
 };
 
 export interface GlobalStoreState
-    extends EmployeeSlice, CategorySlice { }
+    extends EmployeeSlice, CategorySlice, DishesSlice, IngredientSlice, DrinkSlice { }
 
 export const useGlobalStore = create<GlobalStoreState>()(
     devtools(
         persist(
             (...a) => ({
+                ...DrinkStore(...a),
+                ...IngredientStore(...a),
+                ...DishesStore(...a),
                 ...CategoryStore(...a),
                 ...EmployeeStore(...a),
             }),
