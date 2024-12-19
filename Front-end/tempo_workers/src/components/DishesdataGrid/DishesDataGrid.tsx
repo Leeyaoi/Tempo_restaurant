@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import './CookDataGrid.scss';
 import {
   Button,
   FormControl,
@@ -19,22 +18,22 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import DishesType from "../../shared/types/dishes";
 import PaginatedType from "../../shared/types/paginatedModel";
-import CookType from "../../shared/types/cook";
 import { useGlobalStore } from "../../shared/state/globalStore";
 
 interface Props {
-  cook: PaginatedType<CookType>;
+  dishes: PaginatedType<DishesType>;
   limit: number;
   handleLimitChange: (event: SelectChangeEvent) => void;
   page: number;
   setPage: (value: number) => void;
-  handleEdit: (id: string, data: Partial<CookType>) => void;
+  handleEdit: (id: string, data: Partial<DishesType>) => void;
   handleDelete: (id: string) => void;
 }
 
-const CookDataGrid = ({
-  cook,
+const DishesDataGrid = ({
+  dishes,
   limit,
   handleLimitChange,
   page,
@@ -42,10 +41,10 @@ const CookDataGrid = ({
   handleEdit,
   handleDelete,
 }: Props) => {
-  const { updateCook, fetchCategory, Category } = useGlobalStore();
+  const { updateDishes, fetchCategory, Category } = useGlobalStore();
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
-  const [newCook, setNewCook] = useState<CookType>({} as CookType);
+  const [newDishes, setNewDishes] = useState<DishesType>({} as DishesType);
   const [editId, setEditId] = useState<string | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
@@ -53,22 +52,22 @@ const CookDataGrid = ({
     []
   )
 
-  const handleOpenEditDialog = (id: string, data: CookType) => {
+  const handleOpenEditDialog = (id: string, data: DishesType) => {
     setEditId(id);
-    setNewCook(data);
+    setNewDishes(data);
     setOpenEdit(true);
   };
 
   const handleCloseEdit = () => {
     setOpenEdit(false);
     setEditId(null);
-    setNewCook({} as CookType);
+    setNewDishes({} as DishesType);
   };
 
   const handleSave = async () => {
-    console.log(editId)
+    console.log(editId);
     if (editId) {
-      await updateCook(editId, newCook);
+      await updateDishes(editId, newDishes);
     }
     handleCloseEdit();
   };
@@ -91,7 +90,7 @@ const CookDataGrid = ({
   };
 
   const handleCategoryChange = (event: SelectChangeEvent) => {
-    setNewCook({ ...newCook, categoryId: event.target.value })
+    setNewDishes({ ...newDishes, categoryId: event.target.value })
   };
 
   const renderCategory = () => {
@@ -111,7 +110,7 @@ const CookDataGrid = ({
     return items;
   }
 
-  const columns: GridColDef<CookType[][number]>[] = [
+  const columns: GridColDef<DishesType[][number]>[] = [
     {
       field: "name",
       headerName: "Имя",
@@ -119,30 +118,22 @@ const CookDataGrid = ({
       editable: false,
     },
     {
-      field: "surname",
-      headerName: "Фамилия",
+      field: "approx_time",
+      headerName: "Приблизительное время",
       width: 180,
       editable: false,
     },
     {
-      field: "login",
-      headerName: "Логин",
-      renderCell: (params) => { if (params.row.employee) return params.row.employee.login },
-      width: 150,
-      editable: false,
-    },
-    {
-      field: "password",
-      headerName: "Пароль",
-      renderCell: (params) => { if (params.row.employee) return params.row.employee.password },
-      width: 150,
+      field: "price",
+      headerName: "Цена",
+      width: 180,
       editable: false,
     },
     {
       field: "category",
       headerName: "Категория",
       renderCell: (params) => { if (params.row.category) return params.row.category.name },
-      width: 150,
+      width: 180,
       editable: false,
     },
     {
@@ -152,11 +143,13 @@ const CookDataGrid = ({
       renderCell: (params) => (
         <>
           <Button
-            style={{ marginRight: '0.5rem' }}
+            style={{ marginRight: "0.5rem" }}
             color="success"
             variant="contained"
             id="actionButton"
-            onClick={() => handleOpenEditDialog(params.row.id as string, params.row)}
+            onClick={() =>
+              handleOpenEditDialog(params.id as string, params.row)
+            }
           >
             <EditIcon />
           </Button>
@@ -177,7 +170,7 @@ const CookDataGrid = ({
     <>
       <div>
         <DataGrid
-          rows={cook ? cook.items : []}
+          rows={dishes ? dishes.items : []}
           columns={columns}
           disableRowSelectionOnClick
           hideFooter={true}
@@ -199,14 +192,9 @@ const CookDataGrid = ({
             </MenuItem>
           </Select>
         </FormControl>
-        <p id="total_data">
-          Всего записей: {cook ? cook.total : 0}
-        </p>
+        <p id="total_data">Всего записей: {dishes ? dishes.total : 0}</p>
         <div id="pagination-control">
-          <Button
-            variant="contained"
-            onClick={() => setPage(1)}
-          >
+          <Button variant="contained" onClick={() => setPage(1)}>
             <KeyboardDoubleArrowLeftIcon />
           </Button>
           <Button
@@ -216,69 +204,62 @@ const CookDataGrid = ({
             <KeyboardArrowLeftIcon />
           </Button>
           <p>
-            {cook ? cook.page : 0} .. {cook ? cook.pageCount : 0}
+            {dishes ? dishes.page : 0} .. {dishes ? dishes.pageCount : 0}
           </p>
           <Button
             variant="contained"
-            onClick={() => setPage(Math.min(cook.pageCount, page + 1))}
+            onClick={() => setPage(Math.min(dishes.pageCount, page + 1))}
           >
             <KeyboardArrowRightIcon />
           </Button>
-          <Button
-            variant="contained"
-            onClick={() => setPage(cook.pageCount)}
-          >
+          <Button variant="contained" onClick={() => setPage(dishes.pageCount)}>
             <KeyboardDoubleArrowRightIcon />
           </Button>
         </div>
       </div>
 
       <Dialog open={openEdit} onClose={handleCloseEdit}>
-        <DialogTitle>Редактировать сотрудника</DialogTitle>
+        <DialogTitle>Редактировать блюдо</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
             margin="dense"
             label="Имя"
             fullWidth
-            value={newCook.name}
-            onChange={(e) => setNewCook({ ...newCook, name: e.target.value })}
+            value={newDishes.name}
+            onChange={(e) =>
+              setNewDishes({ ...newDishes, name: e.target.value })
+            }
           />
           <TextField
             autoFocus
             margin="dense"
-            label="Фамилия"
+            label="Приблизительное время"
             fullWidth
-            value={newCook.surname}
-            onChange={(e) => setNewCook({ ...newCook, surname: e.target.value })}
+            value={newDishes.approx_time}
+            onChange={(e) =>
+              setNewDishes({ ...newDishes, approx_time: Number(e.target.value) })
+            }
           />
           <TextField
             autoFocus
             margin="dense"
-            label="Логин"
+            label="Цена"
             fullWidth
-            value={newCook.employee ? newCook.employee.login : ""}
-            onChange={(e) => setNewCook({ ...newCook, employee: { ...newCook.employee, login: e.target.value } })}
+            value={newDishes.price}
+            onChange={(e) =>
+              setNewDishes({ ...newDishes, price: e.target.value })
+            }
           />
-          <TextField
-            margin="dense"
-            label="Пароль"
-            type="text"
-            fullWidth
-            value={newCook.employee ? newCook.employee.password : ""}
-            onChange={(e) => setNewCook({ ...newCook, employee: { ...newCook.employee, password: e.target.value } })}
-          />
-
           <FormControl fullWidth variant="standard">
             <Select
               className="text-input"
-              value={newCook.categoryId ?? ""}
+              value={newDishes.categoryId ?? ""}
               onChange={handleCategoryChange}
             >
               {renderCategory()}
             </Select>
           </FormControl>
-
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseEdit}>Отмена</Button>
@@ -302,4 +283,4 @@ const CookDataGrid = ({
   );
 };
 
-export default CookDataGrid;
+export default DishesDataGrid;

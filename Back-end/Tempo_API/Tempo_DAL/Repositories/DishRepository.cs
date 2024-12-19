@@ -17,6 +17,7 @@ public class DishRepository : GenericRepository<DishEntity>, IDishRepository
             .AsNoTracking()
             .Include(e => e.Category)
             .Include(e => e.TablewareList)
+            .Include(e => e.Ingredients).ThenInclude(e => e.Ingredient)
             .Include(e => e.DishwareList);
 
         total = data.Count();
@@ -32,6 +33,7 @@ public class DishRepository : GenericRepository<DishEntity>, IDishRepository
             .Include(e => e.Category)
             .Include(e => e.TablewareList)
             .Include(e => e.DishwareList)
+            .Include(e => e.Ingredients).ThenInclude(e => e.Ingredient)
             .FirstOrDefaultAsync(cancellationToken);
 
         if (result == null)
