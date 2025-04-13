@@ -1,14 +1,33 @@
-import { Button, Container, TextField } from "@mui/material";
-import React from "react";
+import { Button, TextField } from "@mui/material";
+import React, { useEffect } from "react";
+import  { Navigate, redirect } from 'react-router-dom'
 import "./loginPage.scss";
-import Header from "../../modules/header/Header";
-import Footer from "../../modules/footer/Footer";
-import { HttpRequest } from "../../api/GenericApi";
-import { RESTMethod } from "../../shared/types/RESTMethodEnum";
+import { useGlobalStore } from "../../shared/state/globalStore";
+import EmployeeType from "../../shared/types/employee";
 
 const LoginPage = () => {
-  const [login, setLogin] = React.useState("");
+  const [loginData, setLogin] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [waiter, setIsWaiter] = React.useState(false);
+  const [cook, setIsCook] = React.useState(false);
+  const [admin, setIsAdmin] = React.useState(false);
+  const { login, currentUser } = useGlobalStore();
+
+  useEffect(() => { 
+    console.log(currentUser)
+    if (currentUser != {} as EmployeeType && currentUser != null) {
+      setIsWaiter(currentUser.waiter != null);
+      setIsCook(currentUser.cook != null);
+      setIsAdmin(currentUser.waiter == null && currentUser.cook === null);
+    }
+  }, [currentUser])
+
+  if (waiter) {
+    return <Navigate to={`/WaiterPage`} />;
+  }
+  if (admin) {
+    return <Navigate to={`/AdminPage`} />;
+  }
 
   const handleLoginChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -23,8 +42,6 @@ const LoginPage = () => {
   };
 
   return (
-    <Container className="Container">
-      <Header />
       <div id="content">
         <div id="login-form">
           <TextField
@@ -32,7 +49,7 @@ const LoginPage = () => {
             id="login-input"
             label="Логин"
             variant="outlined"
-            value={login}
+            value={loginData}
             onChange={handleLoginChange}
           />
           <TextField
@@ -49,12 +66,8 @@ const LoginPage = () => {
             id="button"
             onClick={(event) => {
               event.preventDefault();
-              if (login !== "" && password !== "") {
-                HttpRequest({
-                  uri: "/user",
-                  method: RESTMethod.Post,
-                  item: { login: login, password: password },
-                });
+              if (loginData !== "" && password !== "") {
+                login({ login: loginData, password: password });
               }
             }}
           >
@@ -62,8 +75,6 @@ const LoginPage = () => {
           </Button>
         </div>
       </div>
-      <Footer />
-    </Container>
   );
 };
 
