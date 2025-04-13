@@ -57,10 +57,8 @@ export default function NestedList() {
   };
 
   return (
-    <div className="Container">
-      <Header />
       <div id="content">
-        <List sx={{ width: '50%', maxWidth: 360 }}>
+        <List sx={{ width: '30%', maxWidth: 360 }}>
           <ListItemButton onClick={handleToggleEmployees}>
             <ListItemIcon>
               <PeopleIcon />
@@ -131,12 +129,10 @@ export default function NestedList() {
           </ListItemButton>
         </List>
 
-        <div style={{ width: '90%' }}>
+        <div style={{ width: '70%' }}>
           <MainModule selectedIndex={selectedIndex} />
         </div>
 
       </div>
-      <Footer />
-    </div>
   );
 }

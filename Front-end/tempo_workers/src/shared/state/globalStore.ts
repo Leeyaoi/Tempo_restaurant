@@ -6,6 +6,8 @@ import { DishesSlice, DishesStore } from "./dishesSlice";
 import { IngredientSlice, IngredientStore } from "./ingredientSlice";
 import DrinkComponent from "../../components/DrinksDataGrid/DrinkComponent";
 import { DrinkSlice, DrinkStore } from "./drinkSlice";
+import { OrderSlice, OrderStore } from "./orderSlice";
+import { UserSlice, UserStore } from "./userSlice";
 
 
 export const sliceResetFns = new Set<() => void>();
@@ -17,7 +19,7 @@ export const resetGlobalStore = () => {
 };
 
 export interface GlobalStoreState
-    extends EmployeeSlice, CategorySlice, DishesSlice, IngredientSlice, DrinkSlice { }
+    extends EmployeeSlice, CategorySlice, DishesSlice, IngredientSlice, DrinkSlice, OrderSlice, UserSlice { }
 
 export const useGlobalStore = create<GlobalStoreState>()(
     devtools(
@@ -28,6 +30,8 @@ export const useGlobalStore = create<GlobalStoreState>()(
                 ...DishesStore(...a),
                 ...CategoryStore(...a),
                 ...EmployeeStore(...a),
+                ...OrderStore(...a),
+                ...UserStore(...a)
             }),
             {
                 name: "app-storage",
